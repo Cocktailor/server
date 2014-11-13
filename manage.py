@@ -30,9 +30,6 @@ def createall(dropdb=False, createdb=False):
     create_test_data()
 
 @app.route('/')
-def ab():
-    return "hello"
-    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Logs the user in."""
@@ -42,12 +39,3 @@ def login():
 
 if __name__ == "__main__":
     manager.run()
-    
-    
-    
-    
-    
-    
-    
-    
-    

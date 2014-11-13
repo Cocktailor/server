@@ -5,16 +5,18 @@ Created on 2014. 11. 12.
 '''
 
 from flask import Flask
-from flask.ext.script import Manager
+from flask import render_template;
+from flask.ext.script import (Manager, Server)
 
 from cocktailor.app import create_app
 from cocktailor.extensions import db
 from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
-
 app = create_app(Config)
 manager = Manager(app)
 
+# Run local server
+manager.add_command("runserver", Server("localhost", port=4418))
 
 @manager.command
 def createall(dropdb=False, createdb=False):
@@ -27,5 +29,25 @@ def createall(dropdb=False, createdb=False):
     db.create_all()
     create_test_data()
 
+@app.route('/')
+def ab():
+    return "hello"
+    
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Logs the user in."""
+    print("aaa??")
+    error = None
+    return render_template('login.html', error=error)
+
 if __name__ == "__main__":
     manager.run()
+    
+    
+    
+    
+    
+    
+    
+    
+    

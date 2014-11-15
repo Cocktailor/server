@@ -16,8 +16,8 @@ class DefaultConfig(object):
     DEBUG = False
     TESTING = False
 
-#    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@localhost/test'
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@cs408.kaist.ac.kr:4419/cocktailor'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@localhost/test'
+#    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@cs408.kaist.ac.kr:4419/cocktailor'
     
     # This will print all SQL statements
     SQLALCHEMY_ECHO = False

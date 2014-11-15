@@ -16,7 +16,7 @@ app = create_app(Config)
 manager = Manager(app)
 
 # Run local server
-manager.add_command("runserver", Server("localhost", port=4418))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 @manager.command
 def createall(dropdb=False, createdb=False):

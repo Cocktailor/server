@@ -32,6 +32,15 @@ class Category(db.Model):
         db.session.delete(self)
         db.session.commit()
         return self
+    
+    def values(self):
+        values = {}
+        values['id'] = self.id
+        values['name'] = self.name
+        values['description'] = self.description
+        values['restaurant_id'] = self.restaurant_id
+        return values
+    
 
 class Menu(db.Model):
     __tablename__ = "menus"
@@ -63,6 +72,16 @@ class Menu(db.Model):
         db.session.commit()
         return self
     
+    def values(self):
+        values = {}
+        values['id'] = self.id
+        values['name'] = self.name
+        values['description'] = self.description
+        values['price'] = self.price
+        values['thumbnail'] = self.thumbnail
+        values['picture'] = self.picture
+        values['category_id'] = self.category_id
+        return values
     
 class Order(db.Model):
     __tablename__ = "orders"

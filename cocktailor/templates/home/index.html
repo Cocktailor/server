@@ -1,0 +1,30 @@
+{% set page_title = "Memberlist" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Table #</th>
+            <th>Order_Content</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for o in orders %}
+        <tr>
+            <td>{{ o['table'] }}</td>
+            <td>{{ o['order_content'] }}</td>
+            <td>{{ o['price'] }}</td>
+            <td>{{ o['status'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

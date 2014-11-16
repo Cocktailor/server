@@ -26,7 +26,7 @@ def create_default_menus():
         menu.save()
 
 def create_default_orders():
-    from cocktailor.fixture.categories import fixture
+    from cocktailor.fixture.orders import fixture
     for data in fixture:
         order = Order()
         for k in data:
@@ -38,4 +38,3 @@ def create_test_data():
     create_default_categories()
     create_default_menus()
     create_default_orders()
-    

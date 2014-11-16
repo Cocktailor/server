@@ -92,6 +92,7 @@ class Order(db.Model):
     order_content = db.Column(db.Text)
     price = db.Column(db.Integer)
     table = db.Column(db.Integer)
+    status = db.Column(db.String(20))
 
     # Methods
     def __repr__(self):
@@ -111,3 +112,13 @@ class Order(db.Model):
         db.session.delete(self)
         db.session.commit()
         return self
+
+    def values(self):
+        values = {}
+        values['id'] = self.id
+        values['user_id'] = self.user_id
+        values['order_content'] = self.order_content
+        values['price'] = self.price
+        values['table'] = self.table
+        values['status'] = self.status
+        return values

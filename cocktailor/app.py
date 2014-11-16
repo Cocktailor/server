@@ -9,6 +9,7 @@ from flask import Flask
 from cocktailor.extensions import db, themes
 
 from cocktailor.auth.views import auth
+from cocktailor.home.views import home
 
 
 
@@ -35,5 +36,6 @@ def configure_extensions(app):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix=app.config["AUTH_URL_PREFIX"])
+    app.register_blueprint(home, url_prefix=app.config["HOME_URL_PREFIX"])
 
     

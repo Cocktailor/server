@@ -25,13 +25,11 @@ def login():
         user, authenticated = User.authenticate(form.login.data,
                                                 form.password.data)
 
-        print(user)
-        print(authenticated)
-        
-#         if user and authenticated:
+        if user and authenticated:
 #             login_user(user, remember=form.remember_me.data)
-#             return redirect(request.args.get("next") or
-#                             url_for("forum.index"))
-#         flash(("Wrong username or password"), "danger")
+            return redirect(request.args.get("next") or
+                            url_for("home.index"))
+            
+        flash(("Wrong username or password"), "danger")
 
     return render_template("auth/login.html", form=form)

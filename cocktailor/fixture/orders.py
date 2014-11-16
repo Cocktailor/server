@@ -9,22 +9,51 @@ from collections import OrderedDict
 fixture = [
     {
         'user_id' : 1,
-        'order_content' : "menu1 X 1 \n menu2 X 2", 
+        'order_content' : "Daiquiri X 1 / Mojito X 2", 
         'price' : 40,
-        'table' : 5,
+        'table' : 1,
+        'status' : 'pending'
     },
     {
         'user_id' : 1,
-        'order_content' : "menu1 X 1 \n menu2 X 2", 
+        'order_content' : "Mojito X 1", 
         'price' : 40,
-        'category_id' : 1,
-        'table' : 6,
+        'table' : 3,
+        'status' : 'pending'
     },
     {
         'user_id' : 1,
-        'order_content' : "menu1 X 1 \n menu2 X 2", 
+        'order_content' : "Hurricane X 2", 
         'price' : 40,
-        'category_id' : 1,
-        'table' : 7,
+        'table' : 8,
+        'status' : 'pending'
+    },
+    {
+        'user_id' : 1,
+        'order_content' : "Daiquiri X 1 / Hurricane X 2 / Mojito X 2", 
+        'price' : 40,
+        'table' : 2,
+        'status' : 'pending'
+    },
+    {
+        'user_id' : 1,
+        'order_content' : "Daiquiri X 1 / Mojito X 2", 
+        'price' : 40,
+        'table' : 4,
+        'status' : 'pending'
+    },
+    {
+        'user_id' : 1,
+        'order_content' : "Daiquiri X 1 / Hurricane X 2 / Mojito X 2", 
+        'price' : 40,
+        'table' : 2,
+        'status' : 'done'
+    },
+    {
+        'user_id' : 1,
+        'order_content' : "Daiquiri X 1 / Mojito X 2", 
+        'price' : 40,
+        'table' : 4,
+        'status' : 'done'
     },
 ]

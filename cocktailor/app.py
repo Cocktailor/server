@@ -4,18 +4,12 @@ Created on 2014. 11. 12.
 @author: hnamkoong
 '''
 
-import os
-import logging
-import datetime
+from flask import Flask
 
-from flask import Flask, request
-from flask.ext.login import current_user
-from cocktailor.home.models import Category, Menu, Order
-from flask.ext.sqlalchemy import SQLAlchemy
+from cocktailor.extensions import db, themes
 
-from cocktailor.extensions import db
+from cocktailor.auth.views import auth
 
-from sqlalchemy import create_engine
 
 
 def create_app(config=None):
@@ -29,8 +23,17 @@ def create_app(config=None):
     app.config.from_envvar("FLASKBB_SETTINGS", silent=True)
     
     configure_extensions(app)
-
+    configure_blueprints(app)
+    
+    # Flask-Themes
+    themes.init_themes(app, app_identifier="cocktailor")
+    
     return app
 
 def configure_extensions(app):
     db.init_app(app)
+
+def configure_blueprints(app):
+    app.register_blueprint(auth, url_prefix=app.config["AUTH_URL_PREFIX"])
+
+    

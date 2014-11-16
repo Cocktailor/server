@@ -22,6 +22,7 @@ manager = Manager(app)
 # Run local server
 manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
+
 @manager.command
 def test():
     return 'a'
@@ -38,13 +39,36 @@ def createall(dropdb=False, createdb=False):
     create_test_data()
 
 
-@app.route('/')
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    """Logs the user in."""
-    print("aaa??")
-    error = None
-    return render_template('login.html', error=error)
+# @app.route('/')
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     """Logs the user in."""
+#     print("aaa??")
+#     error = None
+#     if request.method == 'POST':
+#         print('10')
+#     else:
+#         return render_template('login.html', error=error)
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     """Logs the user in."""
+#     if g.user:
+#         return redirect(url_for('timeline'))
+#     error = None
+#     if request.method == 'POST':
+#         user = query_db('''select * from user where
+#             username = ?''', [request.form['username']], one=True)
+#         if user is None:
+#             error = 'Invalid username'
+#         elif not check_password_hash(user['pw_hash'],
+#                                      request.form['password']):
+#             error = 'Invalid password'
+#         else:
+#             flash('You were logged in')
+#             session['user_id'] = user['user_id']
+#             return redirect(url_for('timeline'))
+#     return render_template('login.html', error=error)
 
 @app.route('/menu_receive', methods=['GET'])
 def menu_receive():

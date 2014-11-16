@@ -6,6 +6,7 @@ Created on 2014. 11. 12.
 
 from cocktailor.extensions import db
 
+
 class Category(db.Model):
     __tablename__ = "categories"
 

@@ -16,7 +16,8 @@ from cocktailor.utils.populate import create_test_data
 from cocktailor.home.models import (Category, Menu)
 from cocktailor.auth.models import (User)
 
-from cocktailor.auth.views import login
+from cocktailor.auth.views import login,auth
+
 app = create_app(Config)
 manager = Manager(app)
 
@@ -45,6 +46,9 @@ def createall(dropdb=False, createdb=False):
     user.email = 'a@a.com'
     user.save()
 
+@app.route('/')
+def start():
+    return redirect(url_for('auth.login'))
 
 @app.route('/menu_receive', methods=['GET'])
 def menu_receive():

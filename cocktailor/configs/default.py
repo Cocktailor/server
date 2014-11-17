@@ -22,10 +22,10 @@ class DefaultConfig(object):
     # This will print all SQL statements
     SQLALCHEMY_ECHO = False
 
-    FORUM_URL_PREFIX = ""
+#     FORUM_URL_PREFIX = ""
     USER_URL_PREFIX = "/user"
     AUTH_URL_PREFIX = "/auth"
-    ADMIN_URL_PREFIX = "/admin"
+#     ADMIN_URL_PREFIX = "/admin"
     HOME_URL_PREFIX = "/home"
 
     # Security

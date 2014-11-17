@@ -5,7 +5,6 @@ Created on 2014. 11. 16.
 '''
 
 from flask import Blueprint, flash, redirect, url_for, request, current_app
-auth = Blueprint("auth", __name__)
 
 from flask.ext.login import (current_user, login_user, login_required,
                              logout_user, confirm_login, login_fresh)
@@ -13,6 +12,8 @@ from flask.ext.login import (current_user, login_user, login_required,
 from cocktailor.auth.forms import LoginForm
 from cocktailor.auth.models import User
 from cocktailor.utils.helpers import render_template
+
+auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():

@@ -4,7 +4,8 @@ Created on 2014. 11. 12.
 @author: hnamkoong
 '''
 
-from cocktailor.home.models import Category, Menu, Order
+from cocktailor.menu.models import Category, Menu
+from cocktailor.home.models import Order
   
 def create_default_categories():
     from cocktailor.fixture.categories import fixture

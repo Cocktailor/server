@@ -34,3 +34,10 @@ def login():
         flash(("Wrong username or password"), "danger")
 
     return render_template("auth/login.html", form=form)
+
+@auth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash(("Logged out"), "success")
+    return redirect(url_for("auth.login"))

@@ -9,20 +9,23 @@ from flask import Flask, redirect, url_for
 from flask.ext.script import (Manager, Server)
 
 from cocktailor.app import create_app
-from cocktailor.extensions import db
+from cocktailor.extensions import db, login_manager
 from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
 
-from cocktailor.home.models import (Category, Menu)
+from cocktailor.menu.models import (Category, Menu)
 from cocktailor.auth.models import (User)
 
+from flask.ext.login import current_user
+
 from cocktailor.auth.views import login,auth
+from cocktailor.home.views import home
 
 app = create_app(Config)
 manager = Manager(app)
 
 # Run local server
-manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+manager.add_command("runserver", Server("localhost", port=4418))
 
 
 @manager.command
@@ -48,6 +51,8 @@ def createall(dropdb=False, createdb=False):
 
 @app.route('/')
 def start():
+    if current_user is not None and current_user.is_authenticated():
+        return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
 @app.route('/menu_receive', methods=['GET'])

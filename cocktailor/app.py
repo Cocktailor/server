@@ -6,7 +6,9 @@ Created on 2014. 11. 12.
 
 from flask import Flask
 
-from cocktailor.extensions import db, themes
+from flask.ext.login import current_user
+
+from cocktailor.extensions import db, themes, login_manager
 
 from cocktailor.auth.views import auth
 from cocktailor.home.views import home
@@ -21,7 +23,7 @@ def create_app(config=None):
     app = Flask("cocktailor")
     app.config.from_object('cocktailor.configs.default.DefaultConfig')
     app.config.from_object(config)
-    app.config.from_envvar("FLASKBB_SETTINGS", silent=True)
+    app.config.from_envvar("COCKTAILOR_SETTINGS", silent=True)
     
     configure_extensions(app)
     configure_blueprints(app)

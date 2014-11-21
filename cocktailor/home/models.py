@@ -15,6 +15,7 @@ class Order(db.Model):
     order_content = db.Column(db.Text)
     price = db.Column(db.Integer)
     table = db.Column(db.Integer)
+    time = db.Column(db.String(20))
     status = db.Column(db.String(20))
 
     # Methods
@@ -56,6 +57,10 @@ class Order(db.Model):
     def insert_table(self,tb):
         self.table = tb
         return self.table
+    
+    def insert_time(self,time):
+        self.time = time
+        return self.time
     
     def insert_status(self):
         self.status = 'pending'

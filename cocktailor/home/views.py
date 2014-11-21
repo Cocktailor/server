@@ -40,10 +40,11 @@ def getorder():
     table = request.form['table']
     price = request.form['price']
     order_content = request.form['order_content']
+    time = request.form['time']
     o = Order()
     o.insert_table(table)
     o.insert_content(order_content)
-    o.insert_price(price)
+    o.insert_time(time)
     o.insert_status()
     o.save()
     return "", 200

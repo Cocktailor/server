@@ -67,7 +67,7 @@ def createall(dropdb=False, createdb=False):
     
     db.drop_all()
     db.create_all()
-    create_test_data()
+#     create_test_data()
 
     user = User()
     user.username = 'admin'

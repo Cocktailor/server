@@ -75,15 +75,25 @@ def menu_receive():
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
 
-@app.route('/api/regid', methods=['POST'])
+@app.route('/api/register_user', methods=['POST'])
 def regid():
-    deviceid = request.form['deviceid']
-    regid = request.form['regid']
-#     if uuid.len
-    if deviceid.length() == 0:
-        return "", 500
-    if regid.length() == 0:
-        return "", 500
+    device_id = request.form['device_id']
+    reg_id = request.form['reg_id']
+    waiter = request.form['waiter']
+    
+    user = User.query.filter_by(device_id=device_id)
+    if len(user) == 0:
+        user = User()
+    else:
+        user = user.first()
+    
+    if len(device_id) != 0 :
+        user.device_id = device_id
+    if len(reg_id)  != 0 :
+        user.reg_id = reg_id
+    if len(waiter) != 0 :
+        user.waiter = waiter
+    user.save()
     
     return "", 200
     

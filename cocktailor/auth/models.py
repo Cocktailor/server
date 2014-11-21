@@ -15,11 +15,12 @@ class User(db.Model, UserMixin):
     __searchable__ = ['username', 'email']
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True, nullable=False)
-    email = db.Column(db.String(200), unique=True, nullable=False)
-    _password = db.Column('password', db.String(120), nullable=False)
-    device_id = db.Column(db.String(200), primary_key=True)
-    reg_id = db.Column(db.String(200))
+    username = db.Column(db.String(200), unique=True)
+    email = db.Column(db.String(200), unique=True)
+    _password = db.Column('password', db.String(120))
+    device_id = db.Column(db.String(100))
+    reg_id = db.Column(db.String(400))
+    iswaiter = db.Column(db.String(100), default="N")
 
     @classmethod
     def get_regid(device_id):

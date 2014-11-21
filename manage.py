@@ -26,7 +26,7 @@ app = create_app(Config)
 manager = Manager(app)
 
 # Run local server
-manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4417))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 
 @manager.command
@@ -77,26 +77,25 @@ def menu_receive():
 
 @app.route('/api/register_user', methods=['POST'])
 def regid():
+    print 'aa'
     device_id = request.form['device_id']
     reg_id = request.form['reg_id']
-    waiter = request.form['waiter']
+    iswaiter = request.form['iswaiter']
     
-    user = User.query.filter_by(device_id=device_id)
-    if len(user) == 0:
+    user = User.query.filter_by(device_id=device_id).first()
+    if user is None:
         user = User()
-    else:
-        user = user.first()
     
     if len(device_id) != 0 :
         user.device_id = device_id
     if len(reg_id)  != 0 :
         user.reg_id = reg_id
-    if len(waiter) != 0 :
-        user.waiter = waiter
+    if len(iswaiter) != 0 :
+        user.iswaiter = iswaiter
     user.save()
     
     return "", 200
-    
+
     
 if __name__ == "__main__":
     manager.run()

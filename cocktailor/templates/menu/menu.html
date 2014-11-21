@@ -7,7 +7,7 @@
 <div class="pull-right" style="padding-bottom: 10px">
     <div class="btn-group">
         <a href="/menu" class="btn btn-primary">
-            <span class="fa fa-pencil"></span> Done Edit
+            <span class="fa fa-book"></span> Back To Menu
         </a>
     </div>
 </div>
@@ -15,39 +15,26 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-        <td colspan="4"><big><strong>{{order.name}}</strong></big>
+        <td colspan="4"><big><strong>{{menu.name}}</strong></big>
+        	<p>&emsp;{{menu.description}}</p>
         </td>
         </tr>
     </thead>
 
     <tbody>
         <tr>
-            <td colspan="2" width="15%">Name</td>
-            <td>Price</td>
-            <td>Description</td>
+            <td colspan="1" width="15%">Price</td>
+            <td colspan="3">{{menu.price}}</td>
         </tr>
-        {% for m in menus %}
-	        {% if m.category_id == c.id %}
-		        <tr>
-		            <td width="5%" style="vertical-align: middle; text-align: center;">
-		            	{% if m.picture %}
-		            		<img src="/picture/{{m.picture}}" width="50" height"50" style="display:block"/>
-		            	{% else %}
-		                    <span class="fa fa-glass" style="font-size: 2em"></span>
-		                {% endif %}
-		            </td>
-		            <td>
-	                    <a href="">{{m.name}}</a>
-		            </td>
-		            <td width="70">
-		                {{m.price}}
-		            </td>
-		            <td>
-		                {{m.description}}
-		            </td>
-		        </tr>
-	        {% endif %}
-        {% endfor %}
+        <tr>
+            <td colspan="4">
+            	{% if menu.picture %}
+            		<img src="/picture/{{menu.picture}}" width="300" height"300" style="display:block">
+            	{% else %}
+            		<span class="fa fa-glass" style="font-size: 2em"></span>
+            	{% endif %}
+            </td>
+        </tr>
     </tbody>
 </table>
 

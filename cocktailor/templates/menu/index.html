@@ -40,7 +40,7 @@
 			                {% endif %}
 			            </td>
 			            <td>
-		                    <a href="">{{m.name}}</a>
+		                    <a href="{{ url_for('menu.view_menu', c_name=c.name, m_id=m.id) }}">{{m.name}}</a>
 			            </td>
 			            <td width="70">
 			                {{m.price}}

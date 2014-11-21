@@ -88,8 +88,7 @@ def new_menu(c_id):
             filename = secure_filename(random_filename)
             path = os.path.join(PICTURE_STORE_PATH, filename)
             file.save(path)
-            print path
-            menu.insert_picture(path)
+            menu.insert_picture(filename)
         menu.save()
         return redirect(url_for('menu.edit'))
     return render_template("menu/new_menu.html")

@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     _password = db.Column('password', db.String(120))
     device_id = db.Column(db.String(100))
     reg_id = db.Column(db.String(400))
+    ble_id = db.Column(db.String(100))
+    table = db.Column(db.String(100))
     iswaiter = db.Column(db.String(100), default="N")
 
     @classmethod

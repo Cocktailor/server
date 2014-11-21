@@ -23,8 +23,12 @@ from cocktailor.home.views import home
 from flask.globals import request
 from gcm import *
 
+
 app = create_app(Config)
 manager = Manager(app)
+
+import logging, sys
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
 manager.add_command("runserver", Server("localhost", port=4418))
@@ -38,7 +42,7 @@ def test():
 def testgcm():
     print 'yoyo'
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
-    data = {'param1': 'value1', 'param2': 'value2'}
+    data = {'device_id': '18:22:7E:BD:F3:85'}
     reg_id = 'APA91bEIn5sG1nUTtL_5hIo4vgvxVufj64iie9OgYWvhMkA_75mHu1OVU7ax4307TDWQA6fGKQ1yObrRdKrO-SLPvyjB5m_-OtdGm_KHFO0n13-qbSyC3qCrK8Q5lGKWx4PcG5yd6GxxgtIywrbMTts6O85FiG0aYA'
     gcm.plaintext_request(registration_id=reg_id, data=data)
     print 'yoyo'
@@ -66,6 +70,12 @@ def start():
 #         return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
+@app.route('/fileupload')
+def start():
+#     if current_user is not None and current_user.is_authenticated():
+#         return redirect(url_for('home.index'))
+    return redirect(url_for('auth.login'))
+
 @app.route('/menu_receive', methods=['GET'])
 def menu_receive():
     categories = Category.query.all()
@@ -85,8 +95,14 @@ def menu_receive():
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
 
+
+@app.route('/picture/<picture>')
+def show_picture(picture):
+    print picture
+    return '55'
+
 @app.route('/api/register_user', methods=['POST'])
-def regid():
+def register_user():
     device_id = request.form['device_id']
     reg_id = request.form['reg_id']
     iswaiter = request.form['iswaiter']
@@ -106,12 +122,67 @@ def regid():
     user.save()
     
     return "", 200
+    
+@app.route('/api/call_waiter', methods=['POST'])
+def call_waiter():
+    ble_id = request.form['ble_id']
+    table = request.form['table']
 
+    print 'ble_id(' + ble_id + ') table(' + table + ')'
+    
+    user = User.query.filter_by(ble_id=ble_id).first()
+    if user is None:
+        user = User()
+    
+    if len(ble_id) != 0 :
+        user.ble_id = ble_id
+    if len(table)  != 0 :
+        user.table = table
+    user.save()
+    
+    users = User.query.filter_by(iswaiter="Y")
+    
+    return "", 200
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 if __name__ == "__main__":
     manager.run()
-    
-    
     
     
     

@@ -25,15 +25,19 @@
 	
 	    <tbody>
 	        <tr>
-	            <td colspan="2" width="15%">Name</td>
+	            <td colspan="2" >Name</td>
 	            <td>Price</td>
 	            <td>Description</td>
 	        </tr>
 	        {% for m in menus %}
 		        {% if m.category_id == c.id %}
 			        <tr>
-			            <td width="5%" style="vertical-align: middle; text-align: center;">
-			                    <span class="fa fa-comment" style="font-size: 2em"></span>
+			            <td  style="vertical-align: middle; text-align: center;">
+			            	{% if m.picture %}
+			            		<img src={{m.picture}} width="100" height="100">
+			            	{% else %}
+			                    <span class="fa fa-glass" style="font-size: 2em"></span>
+			                {% endif %}
 			            </td>
 			            <td>
 			                <div>
@@ -47,6 +51,14 @@
 			                {{m.description}}
 			            </td>
 			        </tr>
+			        <tr><td colspan="4">
+			        <img src=Koala.jpg  style="display:block"/>
+			        </td></tr>
+			        <tr><td colspan="4">
+			        {% if m.picture %}
+			        <img src="{{m.picture}}">
+			        {% endif %}
+			        </td></tr>
 		        {% endif %}
 	        {% endfor %}
 	    </tbody>

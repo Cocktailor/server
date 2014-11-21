@@ -104,6 +104,10 @@ class Menu(db.Model):
         self.price = price
         return self.price
     
+    def insert_picture(self,pic):
+        self.picture = pic
+        return self.picture
+    
     def insert_category_id(self,c_id):
         self.category_id = c_id
         return self.category_id

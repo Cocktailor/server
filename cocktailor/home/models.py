@@ -12,7 +12,6 @@ class Order(db.Model):
     __tablename__ = "orders"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
     order_content = db.Column(db.Text)
     price = db.Column(db.Integer)
     table = db.Column(db.Integer)
@@ -46,3 +45,8 @@ class Order(db.Model):
         values['table'] = self.table
         values['status'] = self.status
         return values
+    
+    def change_status(self):
+        if self.status == 'pending':
+            self.status = 'done'
+        return

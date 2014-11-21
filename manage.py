@@ -70,12 +70,6 @@ def start():
 #         return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
-@app.route('/fileupload')
-def start():
-#     if current_user is not None and current_user.is_authenticated():
-#         return redirect(url_for('home.index'))
-    return redirect(url_for('auth.login'))
-
 @app.route('/menu_receive', methods=['GET'])
 def menu_receive():
     categories = Category.query.all()
@@ -144,46 +138,7 @@ def call_waiter():
     
     return "", 200
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 if __name__ == "__main__":
     manager.run()
-    
-    
     
     

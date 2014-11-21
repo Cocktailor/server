@@ -24,3 +24,13 @@ def index():
         OrdersArray.append(o.values())
         
     return render_template("home/index.html", orders=OrdersArray)
+
+@home.route("/<int:o_id>/done", methods=['GET', 'POST'])
+def done(o_id):
+    orders = Order.query.all()
+    for o in orders:
+        if o_id == o.id:
+            o.change_status()
+            o.save()
+            break
+    return redirect(url_for('home.index'))

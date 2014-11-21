@@ -43,6 +43,7 @@ class Order(db.Model):
         values['order_content'] = self.order_content
         values['price'] = self.price
         values['table'] = self.table
+        values['time'] = self.time
         values['status'] = self.status
         return values
     

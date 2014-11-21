@@ -57,6 +57,14 @@ def edit():
         
     return render_template("menu/edit.html", categories=CategoriesArray, menus=MenusArray)
 
+@menu.route("/<string:c_name>/<int:m_id>", methods=["GET"])
+def view_menu(c_name, m_id):
+    menus = Menu.query.all()
+    for m in menus:
+        if m_id == m.id:
+            break
+    return render_template("menu/menu.html",menu=m)
+
 @menu.route("/edit/new_category", methods=["POST", "GET"])
 def new_category():
     if request.method == "POST":

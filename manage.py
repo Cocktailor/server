@@ -20,6 +20,7 @@ from flask.ext.login import current_user
 
 from cocktailor.auth.views import login,auth
 from cocktailor.home.views import home
+from flask.globals import request
 
 app = create_app(Config)
 manager = Manager(app)
@@ -73,6 +74,11 @@ def menu_receive():
 #     print(result)
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
+
+@app.route('/api/regid', methods=['POST'])
+def regid():
+    print request
+    return
     
     
 if __name__ == "__main__":

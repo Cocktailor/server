@@ -10,6 +10,34 @@ from flask import current_app, url_for
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+class Device(db.Model):
+    __tablename__ = "devices"
+    id = db.Column(db.String(200), primary_key=True)
+    regid = db.Column(db.String(200))
+
+    # Methods
+    def __repr__(self):
+        """Set to a unique key specific to the object in the database.
+        Required for cache.memoize() to work across requests.
+        """
+        return "<{} {}>".format(self.__class__.__name__, self.id)
+
+    def save(self):
+        """Saves a group"""
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+    def delete(self):
+        """Deletes a group"""
+        db.session.delete(self)
+        db.session.commit()
+        return self
+
+    @classmethod
+    def get_regid(id):
+        device = Device.query.filter_by(id=id).first()
+        return device.regid
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"

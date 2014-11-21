@@ -39,12 +39,23 @@ class Order(db.Model):
     def values(self):
         values = {}
         values['id'] = self.id
-        values['user_id'] = self.user_id
         values['order_content'] = self.order_content
         values['price'] = self.price
         values['table'] = self.table
         values['status'] = self.status
         return values
+    
+    def insert_content(self,con):
+        self.order_content = con
+        return self.order_content
+    
+    def insert_price(self,pr):
+        self.price = pr
+        return self.price
+    
+    def insert_table(self,tb):
+        self.table = tb
+        return self.table
     
     def change_status(self):
         if self.status == 'pending':

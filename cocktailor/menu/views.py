@@ -23,7 +23,6 @@ from werkzeug import secure_filename
 import os
 import string
 import random
-from _imaging import path
 
 menu = Blueprint("menu", __name__)
 

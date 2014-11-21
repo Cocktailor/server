@@ -16,7 +16,7 @@ from cocktailor.utils.helpers import render_template
 
 home = Blueprint("home", __name__)
 
-@home.route("/", methods=['GET', 'POST'])
+@home.route("/", methods=['GET'])
 def index():
     orders = Order.query.all()
     OrdersArray = []
@@ -25,7 +25,7 @@ def index():
         
     return render_template("home/index.html", orders=OrdersArray)
 
-@home.route("/<int:o_id>/done", methods=['GET', 'POST'])
+@home.route("/<int:o_id>/done", methods=['POST'])
 def done(o_id):
     orders = Order.query.all()
     for o in orders:
@@ -34,3 +34,17 @@ def done(o_id):
             o.save()
             break
     return redirect(url_for('home.index'))
+
+@home.route("/getorder", methods=['POST'])
+def getorder():
+    table = request.form['table']
+    price = request.form['price']
+    order_content = request.form['order_content']
+    o = Order()
+    o.insert_table(table)
+    o.insert_content(order_content)
+    o.insert_price(price)
+    o.save()
+    redirect(url_for('home.index'))
+    return "", 200
+

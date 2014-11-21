@@ -31,8 +31,8 @@ import logging, sys
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
-manager.add_command("runserver", Server("localhost", port=4418))
-# manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+# manager.add_command("runserver", Server("localhost", port=4418))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 
 @manager.command
@@ -145,7 +145,8 @@ def call_waiter():
     ble_id = request.form['ble_id']
     table = request.form['table']
 
-    print 'ble_id(' + ble_id + ') table(' + table + ')\n'
+    print ' ------------11111 call waiter ----------'
+    print 'ble_id(' + ble_id + ') table(' + table + ')'
     
     user = User.query.filter_by(ble_id=ble_id).first()
     if user is None:
@@ -158,13 +159,13 @@ def call_waiter():
     user.save()
     
 
-    print 'users\n'
+#     print 'users\n'
     count[ble_id] = User.query.filter_by(iswaiter='Y').count()
     waiters = User.query.filter_by(iswaiter='Y')
     blesignal[ble_id] = []
 
     for waiter in waiters :
-        print 'send_gcm to waiter\n'
+#         print 'send_gcm to waiter\n'
         send_gcm(waiter.reg_id, ble_id)
             
     return "", 200
@@ -177,19 +178,20 @@ def ble_signal():
     device_id = request.form['device_id']
     customer_ble_id = request.form['response_ble_id']
 
-    print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')\n'
+    print '\n-----------kkkkkk ble_signal ----------'
+    print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'
     
     blesignal[customer_ble_id].append((int(strength), device_id))
     print blesignal
 
     count[customer_ble_id] = count[customer_ble_id] - 1
     if count[customer_ble_id] == 0:
-        print sorted(blesignal[customer_ble_id], key=itemgetter(1))
-        waiterinfo = sorted(blesignal[customer_ble_id], key=itemgetter(1))[0]
+        blesignal[customer_ble_id].sort(reverse=True)
+        print blesignal[customer_ble_id]
+        waiterinfo = blesignal[customer_ble_id][0]
         strength , waiter_device_id = waiterinfo
-        print waiterinfo
+        print '\n total'
         print strength
-        print waiter_device_id
         user = User.query.filter_by(device_id=waiter_device_id).first()
         waiter_reg_id = user.reg_id
         

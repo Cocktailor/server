@@ -25,24 +25,22 @@
 	
 	    <tbody>
 	        <tr>
-	            <td colspan="2" >Name</td>
+	            <td colspan="2" width="15%">Name</td>
 	            <td>Price</td>
 	            <td>Description</td>
 	        </tr>
 	        {% for m in menus %}
 		        {% if m.category_id == c.id %}
 			        <tr>
-			            <td  style="vertical-align: middle; text-align: center;">
+			            <td width="5%" style="vertical-align: middle; text-align: center;">
 			            	{% if m.picture %}
-			            		<img src={{m.picture}} width="100" height="100">
+			            		<img src="/picture/{{m.picture}}" width="50" height"50" style="display:block"/>
 			            	{% else %}
 			                    <span class="fa fa-glass" style="font-size: 2em"></span>
 			                {% endif %}
 			            </td>
 			            <td>
-			                <div>
-			                    {{m.name}}
-			                </div>
+		                    <a href="">{{m.name}}</a>
 			            </td>
 			            <td width="70">
 			                {{m.price}}
@@ -51,14 +49,6 @@
 			                {{m.description}}
 			            </td>
 			        </tr>
-			        <tr><td colspan="4">
-			        <img src=Koala.jpg  style="display:block"/>
-			        </td></tr>
-			        <tr><td colspan="4">
-			        {% if m.picture %}
-			        <img src="{{m.picture}}">
-			        {% endif %}
-			        </td></tr>
 		        {% endif %}
 	        {% endfor %}
 	    </tbody>

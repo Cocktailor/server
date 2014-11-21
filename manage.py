@@ -118,6 +118,11 @@ def regid():
     
     return "", 200
 
+@app.route('/picture/<picture>')
+def show_picture(picture):
+    print picture
+    return '55'
+    
     
 if __name__ == "__main__":
     manager.run()

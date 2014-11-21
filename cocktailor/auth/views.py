@@ -45,6 +45,7 @@ def login():
 #     confirm = PasswordField('Repeat Password')
 #     accept_tos = BooleanField('I accept the TOS', [validators.Required()])
     
+from flask import Flask
 from flask.ext.wtf import Form, RecaptchaField
 from wtforms import StringField, PasswordField, BooleanField, HiddenField
 from wtforms.validators import (DataRequired, Email, EqualTo, regexp,
@@ -52,12 +53,7 @@ from wtforms.validators import (DataRequired, Email, EqualTo, regexp,
 from werkzeug import secure_filename
 
 import os
-_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-                        os.path.dirname(__file__)))))
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-
-class FileUploadForm(Form):
-    remember_me = BooleanField("Remember Me", default=False)
 
 import string
 import random
@@ -73,11 +69,9 @@ def fileupload():
         if file and (extention in ALLOWED_EXTENSIONS) :
             random_filename = id_generator() + '.' + extention
             filename = secure_filename(random_filename)
-            path = os.path.join(os.path.join(_basedir, 'resource'), filename)
+            app = Flask("cocktailor")
+            path = os.path.join(app.config['PICTURE_STORE_PATH'], filename)
             file.save(path)
-            
-            
-            
             return '55'
     return render_template("test/fileupload.html")
 

@@ -13,8 +13,10 @@ class DefaultConfig(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + _basedir + '/' + \
                               'cocktailor.sqlite'
     
-    DEBUG = False
-    TESTING = False
+    PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
+    
+#     DEBUG = False
+#     TESTING = False
 
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@localhost/test'
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@cs408.kaist.ac.kr:4419/cocktailor'

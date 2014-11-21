@@ -96,8 +96,14 @@ def menu_receive():
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
 
+
+@app.route('/picture/<picture>')
+def show_picture(picture):
+    print picture
+    return '55'
+
 @app.route('/api/register_user', methods=['POST'])
-def regid():
+def register_user():
     device_id = request.form['device_id']
     reg_id = request.form['reg_id']
     iswaiter = request.form['iswaiter']
@@ -117,11 +123,63 @@ def regid():
     user.save()
     
     return "", 200
+    
+@app.route('/api/call_waiter', methods=['POST'])
+def call_waiter():
+    ble_id = request.form['ble_id']
+    table = request.form['table']
 
-@app.route('/picture/<picture>')
-def show_picture(picture):
-    print picture
-    return '55'
+    print 'ble_id(' + ble_id + ') table(' + table + ')'
+    
+    user = User.query.filter_by(ble_id=ble_id).first()
+    if user is None:
+        user = User()
+    
+    if len(ble_id) != 0 :
+        user.ble_id = ble_id
+    if len(table)  != 0 :
+        user.table = table
+    user.save()
+    
+    users = User.query.filter_by(iswaiter="Y")
+    
+    return "", 200
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 if __name__ == "__main__":

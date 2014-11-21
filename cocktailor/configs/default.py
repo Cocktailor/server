@@ -22,10 +22,9 @@ class DefaultConfig(object):
     # This will print all SQL statements
     SQLALCHEMY_ECHO = False
 
-#     FORUM_URL_PREFIX = ""
+    MENU_URL_PREFIX = "/menu"
     USER_URL_PREFIX = "/user"
     AUTH_URL_PREFIX = "/auth"
-#     ADMIN_URL_PREFIX = "/admin"
     HOME_URL_PREFIX = "/home"
 
     # Security
@@ -36,3 +35,6 @@ class DefaultConfig(object):
     # Protection against form post fraud
     WTF_CSRF_ENABLED = True
     WTF_CSRF_SECRET_KEY = "reallyhardtoguess"
+    
+        # Auth
+    LOGIN_VIEW = "auth.login"

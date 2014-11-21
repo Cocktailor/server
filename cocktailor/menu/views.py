@@ -14,13 +14,17 @@ from cocktailor.menu.models import Category,Menu
 from cocktailor.extensions import db
 from cocktailor.utils.helpers import render_template
 
-home = Blueprint("home", __name__)
+menu = Blueprint("menu", __name__)
 
-@home.route("/", methods=['GET', 'POST'])
+@menu.route("/", methods=['GET', 'POST'])
 def index():
-    orders = Order.query.all()
-    OrdersArray = []
-    for o in orders:
-        OrdersArray.append(o.values())
+    categories = Category.query.all()
+    CategoriesArray = []
+    for c in categories:
+        CategoriesArray.append(c.values())
+    menus = Menu.query.all()
+    MenusArray = []
+    for m in menus:
+        MenusArray.append(m.values())
         
-    return render_template("home/index.html", orders=OrdersArray)
+    return render_template("menu/index.html", categories=CategoriesArray, menus=MenusArray)

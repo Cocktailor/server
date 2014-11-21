@@ -51,8 +51,8 @@ def createall(dropdb=False, createdb=False):
 
 @app.route('/')
 def start():
-    if current_user is not None and current_user.is_authenticated():
-        return redirect(url_for('home.index'))
+#     if current_user is not None and current_user.is_authenticated():
+#         return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
 @app.route('/menu_receive', methods=['GET'])

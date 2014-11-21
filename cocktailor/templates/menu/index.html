@@ -4,77 +4,53 @@
 {% block content %}
 {% from theme('macros.html') import render_pagination, group_field %}
 
-<table class="table table-bordered">
-    <thead class="categoryhead">
-        <tr>
-            <td colspan="5">
-                <strong>Test Category 1</strong>
-                <div class="category-description"> c1 description </div>
-            </td>
-        </tr>
-    </thead>
-    <tbody class="forumbody">
-        <tr class="forum_stats">
-            <td colspan="2"><strong>Name</strong></td>
-            <td width="85" align="center" style="white-space: nowrap"><strong>Price</strong></td>
-            <td width="200" align="center" style="white-space: nowrap"><strong>Description</strong></td>
-        </tr>
+<div class="pull-right" style="padding-bottom: 10px">
+    <div class="btn-group">
+        <a href="/menu/edit" class="btn btn-default">
+            <span class="fa fa-pencil"></span> Edit Menu
+        </a>
+    </div>
+</div>
 
-        <tr>
-            <td align="center" valign="center" width="4%">
-                <span class="fa fa-comments-o" style="font-size: 2em"></span>
-            </td>
-            <td valign="top">
-                <strong>Test Forum 1 1</strong>
-                <div class="forum-description">Test Description</div>
-            </td>
 
-            <td valign="top" align="center" style="white-space: nowrap">1</td>
-            <td valign="top" align="left" style="white-space: nowrap">Test Title 1</td>
-        </tr>
-        
-        <tr>
-            <td align="center" valign="center" width="4%">
-                <span class="fa fa-comments-o" style="font-size: 2em"></span>
-            </td>
-
-            <td valign="top">
-                <strong><a href="/forum/2-test-forum-2-1">Test Forum 2 1</a></strong>
-                <div class="forum-description">Test Description</div>
-            </td>
-
-            <td valign="top" align="center" style="white-space: nowrap">1</td>
-            <td valign="top" align="center" style="white-space: nowrap">2</td>
-
-            <td valign="top" align="right" style="white-space: nowrap">
-                <a href="/post/4" title="Test Title 2">
-                    <strong>Test Title 2</strong>
-                </a>
-                <br>19 hours ago<br> by <a href="/user/test2">test2</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Table #</th>
-            <th>Order_Content</th>
-            <th>Price</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for o in orders %}
-        <tr>
-            <td>{{ o['table'] }}</td>
-            <td>{{ o['order_content'] }}</td>
-            <td>{{ o['price'] }}</td>
-            <td>{{ o['status'] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% for c in categories %}
+	<table class="table table-bordered">
+	    <thead>
+	        <tr>
+	        <td colspan="4"><big><strong>{{c.name}}</strong></big>
+	        	<p>&emsp;{{c.description}}</p>
+	        </td>
+	        </tr>
+	    </thead>
+	
+	    <tbody>
+	        <tr>
+	            <td colspan="2" width="15%">Name</td>
+	            <td>Price</td>
+	            <td>Description</td>
+	        </tr>
+	        {% for m in menus %}
+		        {% if m.category_id == c.id %}
+			        <tr>
+			            <td width="5%" style="vertical-align: middle; text-align: center;">
+			                    <span class="fa fa-comment" style="font-size: 2em"></span>
+			            </td>
+			            <td>
+			                <div>
+			                    {{m.name}}
+			                </div>
+			            </td>
+			            <td width="70">
+			                {{m.price}}
+			            </td>
+			            <td>
+			                {{m.description}}
+			            </td>
+			        </tr>
+		        {% endif %}
+	        {% endfor %}
+	    </tbody>
+	</table>
+{% endfor %}
 
 {% endblock %}

@@ -10,15 +10,22 @@ from flask import current_app, url_for
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     __searchable__ = ['username', 'email']
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True, nullable=False)
-    email = db.Column(db.String(200), unique=True, nullable=False)
-    _password = db.Column('password', db.String(120), nullable=False)
+    username = db.Column(db.String(200), unique=True)
+    email = db.Column(db.String(200), unique=True)
+    _password = db.Column('password', db.String(120))
+    device_id = db.Column(db.String(100))
+    reg_id = db.Column(db.String(400))
+    iswaiter = db.Column(db.String(100), default="N")
+
+    @classmethod
+    def get_regid(device_id):
+        user = User.query.filter_by(device_id=device_id).first()
+        return user.reg_id
 
     # Properties
     @property

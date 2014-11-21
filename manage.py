@@ -26,7 +26,7 @@ app = create_app(Config)
 manager = Manager(app)
 
 # Run local server
-manager.add_command("runserver", Server("localhost", port=4418))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4417))
 
 
 @manager.command
@@ -52,8 +52,8 @@ def createall(dropdb=False, createdb=False):
 
 @app.route('/')
 def start():
-    if current_user is not None and current_user.is_authenticated():
-        return redirect(url_for('home.index'))
+#     if current_user is not None and current_user.is_authenticated():
+#         return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
 @app.route('/menu_receive', methods=['GET'])
@@ -77,9 +77,22 @@ def menu_receive():
 
 @app.route('/api/regid', methods=['POST'])
 def regid():
-    print request
-    return
+    deviceid = request.form['deviceid']
+    regid = request.form['regid']
+#     if uuid.len
+    if deviceid.length() == 0:
+        return "", 500
+    if regid.length() == 0:
+        return "", 500
+    
+    return "", 200
     
     
 if __name__ == "__main__":
     manager.run()
+    
+    
+    
+    
+    
+    

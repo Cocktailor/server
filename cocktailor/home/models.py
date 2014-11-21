@@ -57,6 +57,10 @@ class Order(db.Model):
         self.table = tb
         return self.table
     
+    def insert_status(self):
+        self.status = 'pending'
+        return self.status
+    
     def change_status(self):
         if self.status == 'pending':
             self.status = 'done'

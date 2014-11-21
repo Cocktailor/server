@@ -35,9 +35,68 @@ def login():
 
     return render_template("auth/login.html", form=form)
 
+# class RegistrationForm(Form):
+#     username = TextField('Username', [validators.Length(min=4, max=25)])
+#     email = TextField('Email Address', [validators.Length(min=6, max=35)])
+#     password = PasswordField('New Password', [
+#         validators.Required(),
+#         validators.EqualTo('confirm', message='Passwords must match')
+#     ])
+#     confirm = PasswordField('Repeat Password')
+#     accept_tos = BooleanField('I accept the TOS', [validators.Required()])
+    
+from flask.ext.wtf import Form, RecaptchaField
+from wtforms import StringField, PasswordField, BooleanField, HiddenField
+from wtforms.validators import (DataRequired, Email, EqualTo, regexp,
+                                ValidationError)
+from werkzeug import secure_filename
+
+import os
+_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+                        os.path.dirname(__file__)))))
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+class FileUploadForm(Form):
+    remember_me = BooleanField("Remember Me", default=False)
+
+import string
+import random
+def id_generator(size=80, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+@auth.route("/fileupload", methods=["GET", "POST"])
+def fileupload():
+    if request.method == 'POST':
+        file = request.files['file']
+        filename = file.filename
+        extention = '.' in filename and filename.rsplit('.', 1)[1]
+        if file and (extention in ALLOWED_EXTENSIONS) :
+            random_filename = id_generator() + '.' + extention
+            filename = secure_filename(random_filename)
+            path = os.path.join(os.path.join(_basedir, 'resource'), filename)
+            file.save(path)
+            
+            
+            
+            return '55'
+    return render_template("test/fileupload.html")
+
 @auth.route("/logout")
 @login_required
 def logout():
     logout_user()
     flash(("Logged out"), "success")
     return redirect(url_for("auth.login"))
+
+
+
+
+
+
+
+
+
+
+
+
+

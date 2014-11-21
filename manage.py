@@ -23,11 +23,16 @@ from cocktailor.home.views import home
 from flask.globals import request
 from gcm import *
 
+
 app = create_app(Config)
 manager = Manager(app)
 
+import logging, sys
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+
 # Run local server
-manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+# manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+manager.add_command("runserver", Server("localhost", port=4418))
 
 
 @manager.command
@@ -38,7 +43,7 @@ def test():
 def testgcm():
     print 'yoyo'
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
-    data = {'param1': 'value1', 'param2': 'value2'}
+    data = {'device_id': '18:22:7E:BD:F3:85'}
     reg_id = 'APA91bEIn5sG1nUTtL_5hIo4vgvxVufj64iie9OgYWvhMkA_75mHu1OVU7ax4307TDWQA6fGKQ1yObrRdKrO-SLPvyjB5m_-OtdGm_KHFO0n13-qbSyC3qCrK8Q5lGKWx4PcG5yd6GxxgtIywrbMTts6O85FiG0aYA'
     gcm.plaintext_request(registration_id=reg_id, data=data)
     print 'yoyo'
@@ -61,6 +66,12 @@ def createall(dropdb=False, createdb=False):
     user.save()
 
 @app.route('/')
+def start():
+#     if current_user is not None and current_user.is_authenticated():
+#         return redirect(url_for('home.index'))
+    return redirect(url_for('auth.login'))
+
+@app.route('/fileupload')
 def start():
 #     if current_user is not None and current_user.is_authenticated():
 #         return redirect(url_for('home.index'))
@@ -110,8 +121,6 @@ def regid():
     
 if __name__ == "__main__":
     manager.run()
-    
-    
     
     
     

@@ -77,10 +77,11 @@ def menu_receive():
 
 @app.route('/api/register_user', methods=['POST'])
 def regid():
-    print 'aa'
     device_id = request.form['device_id']
     reg_id = request.form['reg_id']
     iswaiter = request.form['iswaiter']
+
+    print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ')' 
     
     user = User.query.filter_by(device_id=device_id).first()
     if user is None:

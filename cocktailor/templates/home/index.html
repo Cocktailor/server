@@ -17,22 +17,33 @@
     </thead>
     <tbody>
         {% for o in orders %}
+        {% if o.status == 'pending' %}
         <tr>
             <td>{{ o['table'] }}</td>
             <td>{{ o['order_content'] }}</td>
             <td>{{ o['price'] }}</td>
             <td>{{ o['status'] }}
-            	{% if o.status == 'pending' %}
-            		<div class="pull-right">
-	            	<a href="{{ url_for('home.done', o_id=o.id) }}" class="btn btn-default" align="right">
-						done
-			        </a></div>
-		        {% endif %}
+        		<div class="pull-right">
+            	<a href="{{ url_for('home.done', o_id=o.id) }}" class="btn btn-default" align="right">
+					done
+		        </a></div>
 		    </td>
-		    
         </tr>
+        {% endif %}
+        {% endfor %}
+        {% for o in orders %}
+        {% if o.status == 'done' %}
+        <tr>
+            <td>{{ o['table'] }}</td>
+            <td>{{ o['order_content'] }}</td>
+            <td>{{ o['price'] }}</td>
+            <td>{{ o['status'] }}</td>
+        </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
+
+<meta http-equiv="refresh" content="3" >
 
 {% endblock %}

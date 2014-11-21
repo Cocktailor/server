@@ -21,11 +21,11 @@ def index():
     orders = Order.query.all()
     OrdersArray = []
     for o in orders:
-        OrdersArray.append(o.values())
+        OrdersArray = [o.values()] + OrdersArray
         
     return render_template("home/index.html", orders=OrdersArray)
 
-@home.route("/<int:o_id>/done", methods=['POST'])
+@home.route("/<int:o_id>/done", methods=['GET','POST'])
 def done(o_id):
     orders = Order.query.all()
     for o in orders:
@@ -44,7 +44,7 @@ def getorder():
     o.insert_table(table)
     o.insert_content(order_content)
     o.insert_price(price)
+    o.insert_status()
     o.save()
-    redirect(url_for('home.index'))
     return "", 200
 

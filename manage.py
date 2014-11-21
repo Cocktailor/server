@@ -23,6 +23,13 @@ from cocktailor.home.views import home
 from flask.globals import request
 from gcm import *
 
+import os,sys
+import string
+import Image
+
+_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+                os.path.dirname(__file__)))))
+PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
 
 app = create_app(Config)
 manager = Manager(app)
@@ -89,12 +96,13 @@ def menu_receive():
 #     print(result)
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
+from flask import send_file
 
+@app.route('/picture/<string:fname>', methods=['GET'])
+def picture_receive(fname):
+    path = os.path.join(PICTURE_STORE_PATH, fname)
+    return send_file(path, mimetype='image/gif')
 
-@app.route('/picture/<picture>')
-def show_picture(picture):
-    print picture
-    return '55'
 
 @app.route('/api/register_user', methods=['POST'])
 def register_user():

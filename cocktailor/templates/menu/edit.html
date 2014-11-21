@@ -1,4 +1,4 @@
-{% set page_title = "Menu" %}
+{% set page_title = "Edit" %}
 
 {% extends theme("layout.html") %}
 {% block content %}
@@ -7,7 +7,7 @@
 <div class="pull-right" style="padding-bottom: 10px">
     <div class="btn-group">
         <a href="/menu" class="btn btn-primary">
-            <span class="fa fa-pencil"></span> Done Edit
+            <span class="fa fa-check"></span> Done Edit
         </a>
     </div>
 </div>
@@ -38,12 +38,14 @@
 		        {% if m.category_id == c.id %}
 			        <tr>
 			            <td width="5%" style="vertical-align: middle; text-align: center;">
-			                    <span class="fa fa-comment" style="font-size: 2em"></span>
+			                {% if m.picture %}
+			            		<img src="/picture/{{m.picture}}" width="50" height"50" style="display:block"/>
+			            	{% else %}
+			                    <span class="fa fa-glass" style="font-size: 2em"></span>
+			                {% endif %}
 			            </td>
 			            <td>
-			                <div>
-			                    {{m.name}}
-			                </div>
+		                    {{m.name}}
 			            </td>
 			            <td width="70">
 			                {{m.price}}

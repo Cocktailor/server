@@ -1,0 +1,55 @@
+{% set page_title = "Menu" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+<div class="pull-right" style="padding-bottom: 10px">
+    <div class="btn-group">
+        <a href="/menu" class="btn btn-primary">
+            <span class="fa fa-pencil"></span> Done Edit
+        </a>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+        <td colspan="4"><big><strong>{{c.name}}</strong></big>
+        	<p>&emsp;{{c.description}}</p>
+        </td>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td colspan="2" width="15%">Name</td>
+            <td>Price</td>
+            <td>Description</td>
+        </tr>
+        {% for m in menus %}
+	        {% if m.category_id == c.id %}
+		        <tr>
+		            <td width="5%" style="vertical-align: middle; text-align: center;">
+		            	{% if m.picture %}
+		            		<img src="/picture/{{m.picture}}" width="50" height"50" style="display:block"/>
+		            	{% else %}
+		                    <span class="fa fa-glass" style="font-size: 2em"></span>
+		                {% endif %}
+		            </td>
+		            <td>
+	                    <a href="">{{m.name}}</a>
+		            </td>
+		            <td width="70">
+		                {{m.price}}
+		            </td>
+		            <td>
+		                {{m.description}}
+		            </td>
+		        </tr>
+	        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

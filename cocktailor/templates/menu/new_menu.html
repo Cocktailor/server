@@ -1,0 +1,31 @@
+{% set page_title = "Menu" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+<form class="form" role="form" method="post">
+    <h3>New Menu</h3>
+    <div class="form-group">
+	    <div class="col-sm-12">
+	        <label>Menu Name</label>
+	                <input class="form-control" id="mname" name="mname" placeholder="Menu Name" required="required" type="text" value="">
+	    </div>
+	</div>
+	<div class="form-group">
+	    <div class="col-sm-12">
+	        <label>Menu Price</label>
+	                <input class="form-control" id="mprice" name="mprice" placeholder="Menu Price" required="required" type="text" value="">
+	    </div>
+	</div>
+    <div class="form-group">
+	    <div class="col-sm-12">
+	        <label>Description</label>
+	                <textarea class="form-control" id="mdesc" name="mdesc" placeholder="Description" required="required" rows="12"></textarea>
+	    </div>
+	</div>
+
+    <button type="submit" class="btn btn-info" name="button" value="reply">Summit</button>
+</form>
+
+{% endblock %}

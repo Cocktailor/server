@@ -1,0 +1,78 @@
+{% set page_title = "Menu" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+<div class="pull-right" style="padding-bottom: 10px">
+    <div class="btn-group">
+        <a href="/menu" class="btn btn-primary">
+            <span class="fa fa-pencil"></span> Done Edit
+        </a>
+    </div>
+</div>
+
+
+{% for c in categories %}
+	<table class="table table-bordered">
+	    <thead>
+	        <tr>
+	        <td colspan="4"><big><strong>{{c.name}}</strong></big>
+	        	<p>&emsp;{{c.description}}</p>
+	        </td>
+	        <td width="30">
+            	<a href="{{ url_for('menu.del_category', c_id=c.id) }}" class="btn btn-warning">
+					<strong>-</strong>
+		        </a>
+	        </td>
+	        </tr>
+	    </thead>
+	
+	    <tbody>
+	        <tr>
+	            <td colspan="2" width="15%">Name</td>
+	            <td>Price</td>
+	            <td colspan="2">Description</td>
+	        </tr>
+	        {% for m in menus %}
+		        {% if m.category_id == c.id %}
+			        <tr>
+			            <td width="5%" style="vertical-align: middle; text-align: center;">
+			                    <span class="fa fa-comment" style="font-size: 2em"></span>
+			            </td>
+			            <td>
+			                <div>
+			                    {{m.name}}
+			                </div>
+			            </td>
+			            <td width="70">
+			                {{m.price}}
+			            </td>
+			            <td>
+			                {{m.description}}
+			            </td>
+			            <td width="30">
+			            	<a href="{{ url_for('menu.del_menu', m_id=m.id) }}" class="btn btn-danger">
+								<strong>-</strong>
+					        </a>
+				        </td>
+			        </tr>
+		        {% endif %}
+	        {% endfor %}
+	        <tr><th colspan="5" style="text-align: center;">
+				<a href="{{ url_for('menu.new_menu', c_id=c.id) }}" class="btn btn-success" width="30">
+					<strong>+</strong>
+		        </a>
+    		</th></tr>
+	    </tbody>
+	</table>
+{% endfor %}
+<table class="table table-bordered">
+	<tr><th style="text-align: center;">
+		<a href="/menu/edit/new_category" class="btn btn-info" width="30">
+			<strong>+</strong>
+        </a>
+    </th></tr>
+</table>
+
+{% endblock %}

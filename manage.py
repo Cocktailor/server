@@ -5,8 +5,9 @@ Created on 2014. 11. 12.
 '''
 
 import json
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, send_file
 from flask.ext.script import (Manager, Server)
+from operator import itemgetter, attrgetter, methodcaller
 
 from cocktailor.app import create_app
 from cocktailor.extensions import db, login_manager
@@ -23,9 +24,11 @@ from cocktailor.home.views import home
 from flask.globals import request
 from gcm import *
 
+from multiprocessing import Process
+import time
+
 import os,sys
 import string
-import Image
 
 _basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
                 os.path.dirname(__file__)))))
@@ -96,7 +99,6 @@ def menu_receive():
 #     print(result)
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
-from flask import send_file
 
 @app.route('/picture/<string:fname>', methods=['GET'])
 def picture_receive(fname):
@@ -125,8 +127,6 @@ def register_user():
     user.save()
     
     return "", 200
-    
-    
 
 @manager.command
 def send_gcm(waiter_reg_id, customer_ble_id):
@@ -141,9 +141,6 @@ def send_gcm_waiter(waiter_reg_id, table):
     data = {'table': table}
     reg_id = waiter_reg_id
     gcm.plaintext_request(registration_id=reg_id, data=data)
-
-from multiprocessing import Process
-import time
 
 blesignal = {}
 count = {}
@@ -179,7 +176,6 @@ def call_waiter():
     return "", 200
     
 
-from operator import itemgetter, attrgetter, methodcaller
 @app.route('/api/ble_signal', methods=['POST'])
 def ble_signal():
     strength = request.form['strength']

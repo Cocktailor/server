@@ -41,8 +41,8 @@ import logging, sys
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
-manager.add_command("runserver", Server("localhost", port=4418))
-# manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+# manager.add_command("runserver", Server("localhost", port=4418))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 
 @manager.command
@@ -67,7 +67,7 @@ def createall(dropdb=False, createdb=False):
     
     db.drop_all()
     db.create_all()
-#     create_test_data()
+    create_test_data()
 
     user = User()
     user.username = 'admin'

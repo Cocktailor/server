@@ -15,7 +15,7 @@ class DefaultConfig(object):
     
     PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
     
-#     DEBUG = False
+#     DEBUG = TRUE
 #     TESTING = False
 
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@localhost/test'

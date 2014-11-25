@@ -34,8 +34,8 @@ manager = Manager(app)
 # logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
-manager.add_command("runserver", Server("localhost", port=4418))
-# manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+# manager.add_command("runserver", Server("localhost", port=4418))
+manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 
 @manager.command

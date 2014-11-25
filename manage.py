@@ -5,12 +5,11 @@ Created on 2014. 11. 12.
 '''
 
 import json
-from flask import Flask, redirect, url_for, send_file
+from flask import redirect, url_for, send_file
 from flask.ext.script import (Manager, Server)
-from operator import itemgetter, attrgetter, methodcaller
 
 from cocktailor.app import create_app
-from cocktailor.extensions import db, login_manager
+from cocktailor.extensions import db
 from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
 
@@ -19,16 +18,10 @@ from cocktailor.auth.models import (User)
 
 from flask.ext.login import current_user
 
-from cocktailor.auth.views import login,auth
-from cocktailor.home.views import home
 from flask.globals import request
-from gcm import *
 
-from multiprocessing import Process
-import time
 
-import os,sys
-import string
+import os
 
 _basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
                 os.path.dirname(__file__)))))
@@ -41,8 +34,8 @@ import logging, sys
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
-# manager.add_command("runserver", Server("localhost", port=4418))
-manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
+manager.add_command("runserver", Server("localhost", port=4418))
+# manager.add_command("runserver", Server("cs408.kaist.ac.kr", port=4418))
 
 
 @manager.command
@@ -77,8 +70,8 @@ def createall(dropdb=False, createdb=False):
 
 @app.route('/')
 def start():
-#     if current_user is not None and current_user.is_authenticated():
-#         return redirect(url_for('home.index'))
+    if current_user is not None and current_user.is_authenticated():
+        return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
 
 @app.route('/menu_receive', methods=['GET'])

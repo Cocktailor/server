@@ -6,7 +6,7 @@ Created on 2014. 11. 16.
 
 from cocktailor.extensions import db
 
-from flask import current_app, url_for
+from flask import url_for
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 

@@ -4,12 +4,9 @@ Created on 2014. 11. 16.
 @author: hnamkoong
 '''
 
-from datetime import datetime
-
-from flask.ext.wtf import Form, RecaptchaField
-from wtforms import StringField, PasswordField, BooleanField, HiddenField
-from wtforms.validators import (DataRequired, Email, EqualTo, regexp,
-                                ValidationError)
+from flask.ext.wtf import Form
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, regexp
 
 
 USERNAME_RE = r'^[\w.+-]+$'

@@ -5,7 +5,6 @@ Created on 2014. 11. 16.
 '''
 
 from flask.ext.themes2 import render_theme_template
-from flask import session
 
 
 def render_template(template, **context):

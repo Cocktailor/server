@@ -32,7 +32,7 @@
                         </button>
                         <a class="navbar-brand" href="/">Cocktailor</a>
                     </div>
-                    
+                    {% if current_user and current_user.is_authenticated() %}
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
 
@@ -47,7 +47,7 @@
                             </a>
                         </div>
                     </div><!-- nav-collapse -->
-                    
+                    {% endif %}
                 </div><!-- container -->
             </nav> <!-- navbar navbar-inverse -->
             {% endblock %}
@@ -67,7 +67,7 @@
             <div id="footer">
                 <div class="container">
                     <p class="text-muted credit pull-left">powered by <a href="http://flask.pocoo.org">Flask</a></p>
-                    <p class="text-muted credit pull-right">&copy; 2013 - <a href="http://flaskbb.org">KAIST CS</a></p>
+                    <p class="text-muted credit pull-right">&copy; 2014 - <a href="http://flaskbb.org">KAIST CS</a></p>
                 </div>
             </div>
             {% endblock %}

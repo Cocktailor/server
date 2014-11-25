@@ -4,9 +4,6 @@ Created on 2014. 11. 12.
 @author: hnamkoong
 '''
 
-from collections import OrderedDict
-
-
 fixture = [
     {
         'name' : 'Gin',

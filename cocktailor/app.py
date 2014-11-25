@@ -6,9 +6,8 @@ Created on 2014. 11. 12.
 
 from flask import Flask
 
-# from flask.ext.login import current_user
-
 from cocktailor.extensions import db, themes, login_manager
+from cocktailor.auth.models import User
 
 from cocktailor.auth.views import auth
 from cocktailor.home.views import home
@@ -36,29 +35,19 @@ def create_app(config=None):
 
 def configure_extensions(app):
     db.init_app(app)
-    
-    # Flask-Login
-#     login_manager.login_view = app.config["LOGIN_VIEW"]
-#     login_manager.refresh_view = app.config["REAUTH_VIEW"]
-#     login_manager.anonymous_user = Guest
 
-#     @login_manager.user_loader
-#     def load_user(id):
-#         """
-#         Loads the user. Required by the `login` extension
-#         """
-#         unread_count = db.session.query(db.func.count(PrivateMessage.id)).\
-#             filter(PrivateMessage.unread == True,
-#                    PrivateMessage.user_id == id).subquery()
-#         u = db.session.query(User, unread_count).filter(User.id == id).first()
-#  
-#         if u:
-#             user, user.pm_unread = u
-#             return user
-#         else:
-#             return None
+    @login_manager.user_loader
+    def load_user(u_id):
+        """
+        Loads the user. Required by the `login` extension
+        """
+        users = User.query.all()
+        for u in users:
+            if unicode(u.id) == u_id:
+                return u
+        return None
 
-#     login_manager.init_app(app)
+    login_manager.init_app(app)
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix=app.config["AUTH_URL_PREFIX"])

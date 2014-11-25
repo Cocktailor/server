@@ -44,7 +44,7 @@ def getorder():
     o = Order()
     o.insert_table(table)
     o.insert_content(order_content)
-    o.insert_price(price)
+    o.insert_price('19000')
     o.insert_time(time)
     o.insert_status()
     o.save()

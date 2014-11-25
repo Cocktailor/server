@@ -37,8 +37,8 @@ PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
 app = create_app(Config)
 manager = Manager(app)
 
-import logging, sys
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+# import logging, sys
+# logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Run local server
 # manager.add_command("runserver", Server("localhost", port=4418))

@@ -4,7 +4,6 @@ Created on 2014. 11. 12.
 @author: hnamkoong
 '''
 
-import json
 from flask import redirect, url_for, send_file
 from flask.ext.script import (Manager, Server)
 
@@ -13,24 +12,18 @@ from cocktailor.extensions import db
 from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
 
-from cocktailor.menu.models import (Category, Menu)
 from cocktailor.auth.models import (User)
 
 from flask.ext.login import current_user
 
+from gcm import *
 
-
-import os
-
-_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-                os.path.dirname(__file__)))))
-PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
 
 app = create_app(Config)
 manager = Manager(app)
 
-# import logging, sys
-# logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+import logging, sys
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 from cocktailor.configs.individualsettings import IndividualConfig as IConfig
 manager.add_command("runserver", Server(IConfig.ServerAddress, port=4418))
@@ -66,39 +59,24 @@ def createall(dropdb=False, createdb=False):
     user.email = 'a@a.com'
     user.save()
 
+    user = User()
+    user.username = 'admin1'
+    user.password = 'password'
+    user.email = 'a@a.com'
+    user.save()
+    
+    user = User()
+    user.username = 'admin2'
+    user.password = 'password'
+    user.email = 'a@a.com'
+    user.save()
+
+
 @app.route('/')
 def start():
     if current_user is not None and current_user.is_authenticated():
         return redirect(url_for('home.index'))
     return redirect(url_for('auth.login'))
-
-@app.route('/menu_receive', methods=['GET'])
-def menu_receive():
-    categories = Category.query.all()
-    CategoriesArray = []
-    for c in categories:
-        CategoriesArray.append(c.values())
-
-    menus = Menu.query.all()
-    MenusArray = []
-    for m in menus:
-        MenusArray.append(m.values())
-        
-    result = {}
-    result['category'] = CategoriesArray
-    result['menu'] = MenusArray
-#     print(result)
-    jsonString = json.dumps(result,sort_keys=True)
-    return jsonString
-
-@app.route('/picture/<string:fname>', methods=['GET'])
-def picture_receive(fname):
-    path = os.path.join(PICTURE_STORE_PATH, fname)
-    return send_file(path, mimetype='image/gif')
-
-    
-
-
 
 if __name__ == "__main__":
     manager.run()

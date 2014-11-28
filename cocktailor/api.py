@@ -4,17 +4,50 @@ Created on 2014. 11. 28.
 @author: hnamkoong
 '''
 
-from flask import Blueprint
+from flask import Blueprint, send_file
 from flask.globals import request
 from cocktailor.auth.models import (User)
+from cocktailor.menu.models import (Category, Menu)
 from gcm import *
 from multiprocessing import Process
+import threading
 import time
+import os
+import json
+
 
 api = Blueprint("api", __name__)
 
 blesignal = {}
-count = {}
+
+@api.route('/menu_receive', methods=['GET'])
+def menu_receive():
+    categories = Category.query.all()
+    CategoriesArray = []
+    for c in categories:
+        CategoriesArray.append(c.values())
+
+    menus = Menu.query.all()
+    MenusArray = []
+    for m in menus:
+        MenusArray.append(m.values())
+        
+    result = {}
+    result['category'] = CategoriesArray
+    result['menu'] = MenusArray
+#     print(result)
+    jsonString = json.dumps(result,sort_keys=True)
+    return jsonString
+
+_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
+                os.path.dirname(__file__)))))
+PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
+
+
+@api.route('/picture/<string:fname>', methods=['GET'])
+def picture_receive(fname):
+    path = os.path.join(PICTURE_STORE_PATH, fname)
+    return send_file(path, mimetype='image/gif')
 
 
 def send_gcm(waiter_reg_id, customer_ble_id):
@@ -52,6 +85,32 @@ def register_user():
     
     return "", 200
 
+class WaitThread(threading.Thread):
+    def run(self):
+        print 'wait for 4 sec.....'
+        global blesignal
+        time.sleep(4)
+        
+        blesignal_local = blesignal
+        customer_ble_id = self._Thread__kwargs['customer_ble_id']
+        
+         
+        blesignal_local[customer_ble_id].sort(reverse=True)
+        print blesignal_local[customer_ble_id]
+        waiterinfo = blesignal_local[customer_ble_id][0]
+        strength , waiter_device_id = waiterinfo
+        print '\n total'
+        print strength
+        user = User.query.filter_by(device_id=waiter_device_id).first()
+        waiter_reg_id = user.reg_id
+         
+        user = User.query.filter_by(ble_id=customer_ble_id).first()
+        table = user.table
+ 
+        send_gcm_waiter(waiter_reg_id, table)
+        
+        
+
 
 @api.route('/call_waiter', methods=['POST'])
 def call_waiter():
@@ -72,15 +131,17 @@ def call_waiter():
     user.save()
     
 
-#     print 'users\n'
-    count[ble_id] = User.query.filter_by(iswaiter='Y').count()
+    count = User.query.filter_by(iswaiter='Y').count()
+    print 'seng gcm to ' + repr(count) + ' clients'
     waiters = User.query.filter_by(iswaiter='Y')
     blesignal[ble_id] = []
 
+    thread = WaitThread(kwargs={'customer_ble_id': ble_id})
+    thread.start()
+
     for waiter in waiters :
-#         print 'send_gcm to waiter\n'
         send_gcm(waiter.reg_id, ble_id)
-            
+    
     return "", 200
 
 @api.route('/ble_signal', methods=['POST'])
@@ -94,23 +155,7 @@ def ble_signal():
     
     blesignal[customer_ble_id].append((int(strength), device_id))
     print blesignal
-
-    count[customer_ble_id] = count[customer_ble_id] - 1
-    if count[customer_ble_id] == 0:
-        blesignal[customer_ble_id].sort(reverse=True)
-        print blesignal[customer_ble_id]
-        waiterinfo = blesignal[customer_ble_id][0]
-        strength , waiter_device_id = waiterinfo
-        print '\n total'
-        print strength
-        user = User.query.filter_by(device_id=waiter_device_id).first()
-        waiter_reg_id = user.reg_id
-        
-        user = User.query.filter_by(ble_id=customer_ble_id).first()
-        table = user.table
-
-        send_gcm_waiter(waiter_reg_id, table)
-        
+    
     return "", 200
     
     

@@ -12,6 +12,7 @@ from cocktailor.auth.forms import LoginForm
 from cocktailor.auth.models import User
 from cocktailor.utils.helpers import render_template
 
+
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])

@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True)
     email = db.Column(db.String(200), unique=True)
+    restaurant_id = db.Column(db.Integer, unique=True)
     _password = db.Column('password', db.String(120))
     device_id = db.Column(db.String(100))
     reg_id = db.Column(db.String(400))

@@ -13,7 +13,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
     description = db.Column(db.String(200))
-#     restaurant_id = db.Column(db.Integer)
+    restaurant_id = db.Column(db.Integer)
 
     # Methods
     def __repr__(self):
@@ -39,7 +39,7 @@ class Category(db.Model):
         values['id'] = self.id
         values['name'] = self.name
         values['description'] = self.description
-#         values['restaurant_id'] = self.restaurant_id
+        values['restaurant_id'] = self.restaurant_id
         return values
     
     def insert_name(self,name):
@@ -49,6 +49,10 @@ class Category(db.Model):
     def insert_description(self,des):
         self.description = des
         return self.description
+    
+    def insert_restaurant_id(self,c_id):
+        self.restaurant_id = c_id
+        return self.restaurant_id
     
 
 class Menu(db.Model):
@@ -60,7 +64,8 @@ class Menu(db.Model):
     price = db.Column(db.Integer)
     thumbnail = db.Column(db.String(200))
     picture = db.Column(db.String(200))
-    category_id = db.Column(db.Integer); 
+    category_id = db.Column(db.Integer);
+    restaurant_id = db.Column(db.Integer); 
 
     # Methods
     def __repr__(self):
@@ -90,6 +95,7 @@ class Menu(db.Model):
         values['thumbnail'] = self.thumbnail
         values['picture'] = self.picture
         values['category_id'] = self.category_id
+        values['restaurant_id'] = self.restaurant_id
         return values
     
     def insert_name(self,name):
@@ -111,4 +117,8 @@ class Menu(db.Model):
     def insert_category_id(self,c_id):
         self.category_id = c_id
         return self.category_id
+    
+    def insert_restaurant_id(self,c_id):
+        self.restaurant_id = c_id
+        return self.restaurant_id
     

@@ -12,6 +12,7 @@ class Order(db.Model):
     __tablename__ = "orders"
 
     id = db.Column(db.Integer, primary_key=True)
+    restaurant_id = db.Column(db.Integer)
     order_content = db.Column(db.Text)
     price = db.Column(db.Integer)
     table = db.Column(db.Integer)
@@ -40,6 +41,7 @@ class Order(db.Model):
     def values(self):
         values = {}
         values['id'] = self.id
+        values['restaurant_id'] = self.restaurant_id
         values['order_content'] = self.order_content
         values['price'] = self.price
         values['table'] = self.table
@@ -62,6 +64,10 @@ class Order(db.Model):
     def insert_time(self,time):
         self.time = time
         return self.time
+    
+    def insert_restaurant_id(self,restaurant_id):
+        self.restaurant_id = restaurant_id
+        return self.restaurant_id
     
     def insert_status(self):
         self.status = 'pending'

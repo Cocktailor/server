@@ -8,12 +8,13 @@ from flask import Blueprint, redirect, url_for, request
 
 from cocktailor.home.models import Order
 from cocktailor.utils.helpers import render_template
+from flask_login import current_user
 
 home = Blueprint("home", __name__)
 
 @home.route("/", methods=['GET'])
 def index():
-    orders = Order.query.all()
+    orders = Order.query.filter_by(restaurant_id = current_user.restaurant_id)
     OrdersArray = []
     for o in orders:
         OrdersArray = [o.values()] + OrdersArray
@@ -22,7 +23,7 @@ def index():
 
 @home.route("/<int:o_id>/done", methods=['GET','POST'])
 def done(o_id):
-    orders = Order.query.all()
+    orders = Order.query.filter_by(restaurant_id = current_user.restaurant_id)
     for o in orders:
         if o_id == o.id:
             o.change_status()
@@ -39,9 +40,10 @@ def getorder():
     o = Order()
     o.insert_table(table)
     o.insert_content(order_content)
-    o.insert_price('19000')
+    o.insert_price(price)
     o.insert_time(time)
     o.insert_status()
+    o.insert_restaurant_id(current_user.restaurant_id)
     o.save()
     return "", 200
 

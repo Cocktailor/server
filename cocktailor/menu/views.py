@@ -6,6 +6,8 @@ Created on 2014. 11. 17.
 
 from flask import Blueprint,redirect, url_for, request
 
+from flask.ext.login import current_user
+
 from cocktailor.menu.models import Category,Menu
 from cocktailor.extensions import db
 from cocktailor.utils.helpers import render_template
@@ -25,24 +27,28 @@ PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
 
 @menu.route("/", methods=['GET', 'POST'])
 def index():
-    categories = Category.query.all()
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
+    categories = Category.query.filter_by(restaurant_id=current_user.restaurant_id)
     CategoriesArray = []
     for c in categories:
         CategoriesArray.append(c.values())
-    menus = Menu.query.all()
+    menus = Menu.query.filter_by(restaurant_id=current_user.restaurant_id)
     MenusArray = []
     for m in menus:
         MenusArray.append(m.values())
         
     return render_template("menu/index.html", categories=CategoriesArray, menus=MenusArray)
 
-@menu.route("/edit", methods=['GET', 'POST'])
+@menu.route("/edit/", methods=['GET', 'POST'])
 def edit():
-    categories = Category.query.all()
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
+    categories = Category.query.filter_by(restaurant_id=current_user.restaurant_id)
     CategoriesArray = []
     for c in categories:
         CategoriesArray.append(c.values())
-    menus = Menu.query.all()
+    menus = Menu.query.filter_by(restaurant_id=current_user.restaurant_id)
     MenusArray = []
     for m in menus:
         MenusArray.append(m.values())
@@ -62,6 +68,7 @@ def new_category():
         ctgr = Category()
         ctgr.insert_name(name)
         ctgr.insert_description(desc)
+        ctgr.insert_restaurant_id(current_user.restaurant_id)
         ctgr.save()
         return redirect(url_for('menu.edit'))
     return render_template("menu/new_category.html")
@@ -80,6 +87,7 @@ def new_menu(c_id):
         menu.insert_price(price)
         menu.insert_description(desc)
         menu.insert_category_id(c_id)
+        menu.insert_restaurant_id(current_user.restaurant_id)
         if file and (extention in ALLOWED_EXTENSIONS) :
             random_filename = id_generator() + '.' + extention
             filename = secure_filename(random_filename)

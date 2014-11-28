@@ -28,7 +28,6 @@ logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 from cocktailor.configs.individualsettings import IndividualConfig as IConfig
 manager.add_command("runserver", Server(IConfig.ServerAddress, port=4418))
 
-
 @manager.command
 def test():
     return 'a'
@@ -57,37 +56,29 @@ def createall(dropdb=False, createdb=False):
     user.username = 'admin'
     user.password = 'password'
     user.email = 'a@a.com'
+    user.restaurant_id = 1
     user.save()
 
     user = User()
     user.username = 'admin1'
     user.password = 'password'
-    user.email = 'a@a.com'
+    user.email = 'a1@a.com'
+    user.restaurant_id = 2
     user.save()
     
     user = User()
     user.username = 'admin2'
     user.password = 'password'
-    user.email = 'a@a.com'
+    user.email = 'a2@a.com'
+    user.restaurant_id = 3
     user.save()
 
 
 @app.route('/')
 def start():
-    if current_user is not None and current_user.is_authenticated():
-        return redirect(url_for('home.index'))
-    return redirect(url_for('auth.login'))
-
-_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-                os.path.dirname(__file__)))))
-PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
-
-
-@app.route('/api/picture/<string:fname>', methods=['GET'])
-def picture_receive(fname):
-    path = os.path.join(PICTURE_STORE_PATH, fname)
-    return send_file(path, mimetype='image/gif')
-
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
+    return redirect(url_for('menu.index'))
 
 if __name__ == "__main__":
     manager.run()

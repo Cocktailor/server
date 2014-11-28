@@ -28,6 +28,7 @@ class DefaultConfig(object):
     USER_URL_PREFIX = "/user"
     AUTH_URL_PREFIX = "/auth"
     HOME_URL_PREFIX = "/home"
+    API_URL_PREFIX = "/api"
 
     # Security
     # This is the secret key that is used for session signing.

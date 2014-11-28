@@ -12,6 +12,7 @@ from cocktailor.auth.models import User
 from cocktailor.auth.views import auth
 from cocktailor.home.views import home
 from cocktailor.menu.views import menu
+from cocktailor.api import api
 
 
 
@@ -53,5 +54,6 @@ def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix=app.config["AUTH_URL_PREFIX"])
     app.register_blueprint(home, url_prefix=app.config["HOME_URL_PREFIX"])
     app.register_blueprint(menu, url_prefix=app.config["MENU_URL_PREFIX"])
+    app.register_blueprint(api, url_prefix=app.config["API_URL_PREFIX"])
 
     

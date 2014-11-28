@@ -7,14 +7,38 @@ Created on 2014. 11. 17.
 from flask import Blueprint
 from flask.globals import request
 from cocktailor.auth.models import User
-from cocktailor.bluetooth.models import WaitThread
 from gcm import *
-# from multiprocessing import Process
 
+import threading
+import time
+import copy
 
 ble = Blueprint("ble", __name__)
 
 blesignal = {}
+
+class WaitThread(threading.Thread):
+    def run(self):
+        print 'wait for 4 sec.....'
+        global blesignal
+        time.sleep(10)
+        
+        customer_ble_id = self._Thread__kwargs['customer_ble_id']
+        blesignal_local = copy.deepcopy(blesignal[customer_ble_id])    
+         
+        blesignal_local.sort(reverse=True)
+        print blesignal_local
+        waiterinfo = blesignal_local[0]
+        strength , waiter_device_id = waiterinfo
+        print '\n total'
+        print strength
+#         user = User.query.filter_by(device_id=waiter_device_id).first()
+#         waiter_reg_id = user.reg_id
+#          
+#         user = User.query.filter_by(ble_id=customer_ble_id).first()
+#         table = user.table
+#  
+#         send_gcm_waiter(waiter_reg_id, table)
 
 def send_gcm(waiter_reg_id, customer_ble_id):
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
@@ -70,7 +94,7 @@ def call_waiter():
     user.save()
 
     count = User.query.filter_by(iswaiter='Y').count()
-    print 'seng gcm to ', count,' clients'
+    print 'seng gcm to ', count,' client waiters'
     waiters = User.query.filter_by(iswaiter='Y')
     blesignal[ble_id] = []
 

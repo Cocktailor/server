@@ -5,14 +5,14 @@ Created on 2014. 11. 12.
 '''
 
 from flask import redirect, url_for
-from flask.ext.script import (Manager, Server)
+from flask.ext.script import Manager, Server
 
 from cocktailor.app import create_app
 from cocktailor.extensions import db
 from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
 
-from cocktailor.auth.models import (User)
+from cocktailor.auth.models import User
 
 from flask.ext.login import current_user
 

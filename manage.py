@@ -4,8 +4,7 @@ Created on 2014. 11. 12.
 @author: hnamkoong
 '''
 
-import os
-from flask import redirect, url_for, send_file
+from flask import redirect, url_for
 from flask.ext.script import (Manager, Server)
 
 from cocktailor.app import create_app
@@ -26,7 +25,7 @@ import logging, sys
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 from cocktailor.configs.individualsettings import IndividualConfig as IConfig
-manager.add_command("runserver", Server(IConfig.ServerAddress, port=4418))
+manager.add_command("runserver", Server(IConfig.ServerAddress, port=IConfig.ServerPort))
 
 @manager.command
 def test():
@@ -72,7 +71,6 @@ def createall(dropdb=False, createdb=False):
     user.email = 'a2@a.com'
     user.restaurant_id = 3
     user.save()
-
 
 @app.route('/')
 def start():

@@ -15,6 +15,8 @@ class DefaultConfig(object):
     
     PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
     
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+    
 #     DEBUG = TRUE
 #     TESTING = False
 
@@ -29,6 +31,7 @@ class DefaultConfig(object):
     AUTH_URL_PREFIX = "/auth"
     HOME_URL_PREFIX = "/home"
     API_URL_PREFIX = "/api"
+    BLE_URL_PREFIX = "/bluetooth"
 
     # Security
     # This is the secret key that is used for session signing.

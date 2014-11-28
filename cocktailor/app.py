@@ -13,6 +13,7 @@ from cocktailor.auth.views import auth
 from cocktailor.home.views import home
 from cocktailor.menu.views import menu
 from cocktailor.api import api
+from cocktailor.bluetooth.views import ble
 
 
 
@@ -55,5 +56,6 @@ def configure_blueprints(app):
     app.register_blueprint(home, url_prefix=app.config["HOME_URL_PREFIX"])
     app.register_blueprint(menu, url_prefix=app.config["MENU_URL_PREFIX"])
     app.register_blueprint(api, url_prefix=app.config["API_URL_PREFIX"])
+    app.register_blueprint(ble, url_prefix=app.config["BLE_URL_PREFIX"])
 
     

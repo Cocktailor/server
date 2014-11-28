@@ -11,6 +11,7 @@ from flask.ext.login import current_user
 from cocktailor.menu.models import Category,Menu
 from cocktailor.extensions import db
 from cocktailor.utils.helpers import render_template
+from cocktailor.configs.default import DefaultConfig as Config
 
 from werkzeug import secure_filename
 
@@ -19,11 +20,6 @@ import string
 import random
 
 menu = Blueprint("menu", __name__)
-
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-                os.path.dirname(__file__)))))
-PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
 
 @menu.route("/", methods=['GET', 'POST'])
 def index():
@@ -88,10 +84,10 @@ def new_menu(c_id):
         menu.insert_description(desc)
         menu.insert_category_id(c_id)
         menu.insert_restaurant_id(current_user.restaurant_id)
-        if file and (extention in ALLOWED_EXTENSIONS) :
+        if file and (extention in Config.ALLOWED_EXTENSIONS) :
             random_filename = id_generator() + '.' + extention
             filename = secure_filename(random_filename)
-            path = os.path.join(PICTURE_STORE_PATH, filename)
+            path = os.path.join(Config.PICTURE_STORE_PATH, filename)
             file.save(path)
             menu.insert_picture(filename)
         menu.save()

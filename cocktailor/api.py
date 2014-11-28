@@ -39,17 +39,6 @@ def menu_receive():
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString
 
-_basedir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(
-                os.path.dirname(__file__)))))
-PICTURE_STORE_PATH = os.path.join(_basedir, 'resource')
-
-
-@api.route('/picture/<string:fname>', methods=['GET'])
-def picture_receive(fname):
-    path = os.path.join(PICTURE_STORE_PATH, fname)
-    return send_file(path, mimetype='image/gif')
-
-
 def send_gcm(waiter_reg_id, customer_ble_id):
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
     data = {'ble_id': customer_ble_id}

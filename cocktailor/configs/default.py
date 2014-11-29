@@ -31,7 +31,7 @@ class DefaultConfig(object):
     AUTH_URL_PREFIX = "/auth"
     HOME_URL_PREFIX = "/home"
     API_URL_PREFIX = "/api"
-    BLE_URL_PREFIX = "/bluetooth"
+    CALL_URL_PREFIX = "/call"
 
     # Security
     # This is the secret key that is used for session signing.

@@ -13,7 +13,7 @@ from cocktailor.configs.default import DefaultConfig as Config
 from cocktailor.utils.populate import create_test_data
 
 from cocktailor.auth.models import User
-
+from cocktailor.call.models import FunctionalCallName, WaiterCall
 from flask.ext.login import current_user
 
 from gcm import *

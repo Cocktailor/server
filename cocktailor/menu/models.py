@@ -62,7 +62,6 @@ class Menu(db.Model):
     name = db.Column(db.String(200))
     description = db.Column(db.String(200))
     price = db.Column(db.Integer)
-    thumbnail = db.Column(db.String(200))
     picture = db.Column(db.String(200))
     category_id = db.Column(db.Integer);
     restaurant_id = db.Column(db.Integer); 

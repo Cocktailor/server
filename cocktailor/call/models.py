@@ -1,5 +1,5 @@
 '''
-Created on 2014. 11. 12.
+Created on 2014. 11. 29.
 
 @author: hnamkoong
 '''
@@ -11,6 +11,7 @@ class FunctionalCallName(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     restaurant_id = db.Column(db.Integer)
+    picture = db.Column(db.String(200))
     name = db.Column(db.Text)
 
     # Methods
@@ -43,6 +44,7 @@ class WaiterCall(db.Model):
     __tablename__ = "waitercalls"
 
     id = db.Column(db.Integer, primary_key=True)
+    restaurant_id = db.Column(db.Integer)
     device_id = db.Column(db.String(100))
     ble_id = db.Column(db.String(100))
     table = db.Column(db.String(100))
@@ -73,4 +75,3 @@ class WaiterCall(db.Model):
         values['ble_id'] = self.ble_id
         values['table'] = self.table
         return values
-    

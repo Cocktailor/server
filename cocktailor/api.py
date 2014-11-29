@@ -9,7 +9,7 @@ from cocktailor.menu.models import Category, Menu
 from cocktailor.configs.default import DefaultConfig as Config
 from flask.globals import request
 from cocktailor.auth.models import User
-from cocktailor.call.models import WaiterCall as WC
+from cocktailor.call.models import WaiterCall as WC, FunctionalCallName
 from cocktailor.home.models import Order
 from gcm import *
 
@@ -40,9 +40,15 @@ def menu_receive(r_id):
     for m in menus:
         MenusArray.append(m.values())
         
+    fcns = FunctionalCallName.query.filter_by(restaurant_id=r_id)
+    fcnArray = []
+    for fnc in fcns:
+         fcnArray.append(fnc.values())
+        
     result = {}
     result['category'] = CategoriesArray
     result['menu'] = MenusArray
+    result['functional_call_name'] = fcnArray
 #     print(result)
     jsonString = json.dumps(result,sort_keys=True)
     return jsonString

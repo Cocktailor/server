@@ -37,6 +37,7 @@ class FunctionalCallName(db.Model):
         values = {}
         values['id'] = self.id
         values['restaurant_id'] = self.restaurant_id
+        values['picture'] = self.picture
         values['name'] = self.name
         return values
     

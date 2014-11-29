@@ -17,7 +17,7 @@ fixture = [
     },
     {
         'name' : 'Tequila',
-        'restaurant_id' : 2,
+        'restaurant_id' : 1,
         'description' : 'Tequila is a regional specific name for a distilled beverage made from the blue agave plant, primarily in the area surrounding the city of Tequila.',
     },
     {
@@ -27,7 +27,27 @@ fixture = [
     },
     {
         'name' : 'Rum',
-        'restaurant_id' : 2,
+        'restaurant_id' : 1,
         'description' : 'Rum is a distilled alcoholic beverage made from sugarcane byproducts, such as molasses, or directly from sugarcane juice.',
-    }
+    },
+    {
+        'name' : 'tui guim',
+        'restaurant_id' : 2,
+        'description' : 'basac basac',
+    },
+    {
+        'name' : 'boon sic',
+        'restaurant_id' : 2,
+        'description' : 'jjol git jjol git',
+    },
+    {
+        'name' : 'go gi',
+        'restaurant_id' : 3,
+        'description' : 'taste good',
+    },
+    {
+        'name' : 'sic sa',
+        'restaurant_id' : 3,
+        'description' : 'korean need rice',
+    },
 ]

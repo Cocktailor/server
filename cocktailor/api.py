@@ -114,6 +114,7 @@ def register_user():
     device_id = request.form['device_id']
     reg_id = request.form['reg_id']
     iswaiter = request.form['iswaiter']
+    waiter_name = request.form['waiter_name']
 
     print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ')' 
     

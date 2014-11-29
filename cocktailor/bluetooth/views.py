@@ -7,6 +7,7 @@ Created on 2014. 11. 17.
 from flask import Blueprint
 from flask.globals import request
 from cocktailor.auth.models import User
+from cocktailor.bluetooth.models import WaiterCall as WC
 from gcm import *
 
 import threading
@@ -83,15 +84,15 @@ def call_waiter():
     print ' ------------11111 call waiter ----------'
     print 'ble_id(' + ble_id + ') table(' + table + ')'
     
-    user = User.query.filter_by(ble_id=ble_id).first()
-    if user is None:
-        user = User()
+    wc = WC.query.filter_by(ble_id=ble_id).first()
+    if wc is None:
+        wc = WC()
     
     if len(ble_id) != 0 :
-        user.ble_id = ble_id
+        wc.ble_id = ble_id
     if len(table)  != 0 :
-        user.table = table
-    user.save()
+        wc.table = table
+    wc.save()
 
     count = User.query.filter_by(iswaiter='Y').count()
     print 'seng gcm to ', count,' client waiters'
@@ -111,6 +112,17 @@ def ble_signal():
     strength = request.form['strength']
     device_id = request.form['device_id']
     customer_ble_id = request.form['response_ble_id']
+    
+    wc = WC.query.filter_by(ble_id=customer_ble_id).first()
+    if wc.device_id is None:
+        wc.device_id = device_id
+        wc.save()
+    else:
+        tmp_wc = WC()
+        tmp_wc.ble_id = wc.ble_id
+        tmp_wc.table = wc.table
+        tmp_wc.device_id = device_id
+        tmp_wc.save()
 
     print '\n-----------kkkkkk ble_signal ----------'
     print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'

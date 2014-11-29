@@ -49,6 +49,7 @@ class WaiterCall(db.Model):
     device_id = db.Column(db.String(100))
     ble_id = db.Column(db.String(100))
     table = db.Column(db.String(100))
+    waiter_name = db.Column(db.String(100)) 
 
     # Methods
     def __repr__(self):

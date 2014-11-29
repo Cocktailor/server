@@ -91,7 +91,6 @@ class Menu(db.Model):
         values['name'] = self.name
         values['description'] = self.description
         values['price'] = self.price
-        values['thumbnail'] = self.thumbnail
         values['picture'] = self.picture
         values['category_id'] = self.category_id
         values['restaurant_id'] = self.restaurant_id

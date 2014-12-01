@@ -12,6 +12,7 @@ from cocktailor.auth.models import User
 from cocktailor.call.models import WaiterCall as WC, FunctionalCallName
 from cocktailor.home.models import Order
 from gcm import *
+from datetime import datetime
 
 import threading
 import time
@@ -73,29 +74,6 @@ def getorder():
 
 blesignal = {}
 
-class WaitThread(threading.Thread):
-    def run(self):
-        print 'wait for 4 sec.....'
-        global blesignal
-        time.sleep(10)
-        
-        customer_ble_id = self._Thread__kwargs['customer_ble_id']
-        blesignal_local = copy.deepcopy(blesignal[customer_ble_id])    
-         
-        blesignal_local.sort(reverse=True)
-        print blesignal_local
-        waiterinfo = blesignal_local[0]
-        strength , waiter_device_id = waiterinfo
-        print '\n total'
-        print strength
-#         user = User.query.filter_by(device_id=waiter_device_id).first()
-#         waiter_reg_id = user.reg_id
-#          
-#         user = User.query.filter_by(ble_id=customer_ble_id).first()
-#         table = user.table
-#  
-#         send_gcm_waiter(waiter_reg_id, table)
-
 def send_gcm(waiter_reg_id, customer_ble_id):
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
     data = {'ble_id': customer_ble_id}
@@ -116,7 +94,7 @@ def register_user():
     iswaiter = request.form['iswaiter']
     waiter_name = request.form['waiter_name']
 
-    print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ')' 
+    print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ') waiter_name(' +  waiter_name +')'
     
     user = User.query.filter_by(device_id=device_id).first()
     if user is None:
@@ -128,36 +106,69 @@ def register_user():
         user.reg_id = reg_id
     if len(iswaiter) != 0 :
         user.iswaiter = iswaiter
+    if len(waiter_name) != 0 :
+        user.waiter_name = waiter_name
     user.save()
     
     return "", 200  
+
+class WaitThread(threading.Thread):
+    def run(self):
+        print 'Wait Thread. wait for 4 sec.....'
+        global blesignal
+        time.sleep(4)
+
+        wc_id = self._Thread__kwargs['wc_id']
+        wc = WC.query.filter_by(id=wc_id).first()
+        customer_ble_id = wc.ble_id
+        
+        blesignal_local = copy.deepcopy(blesignal[customer_ble_id])    
+        
+#        I will develope this during test
+#         if len(blesignal_local) == 0 :
+#             
+#         else :
+        
+        blesignal_local.sort(reverse=True)
+        print blesignal_local
+        waiterinfo = blesignal_local[0]
+        strength , waiter_device_id = waiterinfo
+        print '\n total'
+        print strength
+        waiter = User.query.filter_by(device_id=waiter_device_id).first()
+        waiter_reg_id = waiter.reg_id
+        
+        customer = User.query.filter_by(ble_id=customer_ble_id).first()
+        table = customer.table
+        
+        wc.waiter_name = waiter.waiter_name
+        wc.time = datetime.now().strftime("%m/%d %H:%M")
+        
+        send_gcm_waiter(waiter_reg_id, table)
 
 @api.route('/call_waiter', methods=['POST'])
 def call_waiter():
     ble_id = request.form['ble_id']
     table = request.form['table']
+    functional_call_name = request.form['functional_call_name']
 
     print ' ------------11111 call waiter ----------'
-    print 'ble_id(' + ble_id + ') table(' + table + ')'
-    
-    wc = WC.query.filter_by(ble_id=ble_id).first()
-    if wc is None:
-        wc = WC()
-    
-    if len(ble_id) != 0 :
-        wc.ble_id = ble_id
-    if len(table)  != 0 :
-        wc.table = table
+    print 'ble_id(' + ble_id + ') table(' + table + ') functional_call_name(' + functional_call_name + ')'
+    wc = WC()
+    wc.ble_id = ble_id
+    wc.table = table
+    wc.functional_call_name = functional_call_name
     wc.save()
+    
+    blesignal[ble_id] = []
+    
+    thread = WaitThread(kwargs={'wc_id': wc.id})
+    thread.start()
 
     count = User.query.filter_by(iswaiter='Y').count()
     print 'seng gcm to ', count,' client waiters'
     waiters = User.query.filter_by(iswaiter='Y')
-    blesignal[ble_id] = []
-
-    thread = WaitThread(kwargs={'customer_ble_id': ble_id})
-    thread.start()
-
+    
     for waiter in waiters :
         send_gcm(waiter.reg_id, ble_id)
     
@@ -169,21 +180,10 @@ def ble_signal():
     device_id = request.form['device_id']
     customer_ble_id = request.form['response_ble_id']
     
-    wc = WC.query.filter_by(ble_id=customer_ble_id).first()
-    if wc.device_id is None:
-        wc.device_id = device_id
-        wc.save()
-    else:
-        tmp_wc = WC()
-        tmp_wc.ble_id = wc.ble_id
-        tmp_wc.table = wc.table
-        tmp_wc.device_id = device_id
-        tmp_wc.save()
-
     print '\n-----------kkkkkk ble_signal ----------'
     print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'
     
-    blesignal[customer_ble_id].append((int(strength), device_id))
+    blesignal[customer_ble_id].append((int(strength)+100, device_id))
     print blesignal
     
     return "", 200

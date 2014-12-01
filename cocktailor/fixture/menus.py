@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 2014. 11. 12.
 
@@ -6,7 +7,7 @@ Created on 2014. 11. 12.
 
 fixture = [
     {
-        'name' : 'Hurricane',
+        'name' : u'됨?ㅋ',
         'description' : 'Break away from the basic cocktail for a minute, as this favorite has an extensive ingredient list.',
         'price' : 7000,
         'picture' : 'hurricane.jpg',

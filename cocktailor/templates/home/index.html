@@ -47,6 +47,28 @@
     </tbody>
 </table>
 
-<meta http-equiv="refresh" content="3" >
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	var before = '0';
+	var after = '0';
+	
+	(function worker() {
+		$.ajax({
+			type: "POST",
+		  	url: "/home/ordercount",
+		}).done(function( data ) {
+			after = data;
+			if(before != '0' && before != after) {
+				console.log('before : ' + before + 'after : ' + after); 
+				location.reload();
+			}
+			before = after;
+			setTimeout(worker, 500);
+		});
+	})();
+	
+</script>
+
 
 {% endblock %}

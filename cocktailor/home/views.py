@@ -32,8 +32,6 @@ def done(o_id):
             break
     return redirect(url_for('home.index'))
 
-import gevent
-
 @home.route("/ordercount", methods=['POST'])
 def ordercount():
     orderCount = Order.query.filter_by(restaurant_id = current_user.restaurant_id).count()

@@ -93,8 +93,9 @@ def register_user():
     reg_id = request.form['reg_id']
     iswaiter = request.form['iswaiter']
     waiter_name = request.form['waiter_name']
+    restaurant_id = request.form['restaurant_id']
 
-    print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ') waiter_name(' +  waiter_name +')'
+    print 'device_id(' + device_id + ') reg_id(' + reg_id + ') waiter(' + iswaiter + ') waiter_name(' +  waiter_name + ') restaurant_id(' + restaurant_id + ')'
     
     user = User.query.filter_by(device_id=device_id).first()
     if user is None:
@@ -108,27 +109,43 @@ def register_user():
         user.iswaiter = iswaiter
     if len(waiter_name) != 0 :
         user.waiter_name = waiter_name
+    if len(restaurant_id) != 0 :
+        user.restaurant_id = restaurant_id
     user.save()
     
-    return "", 200  
+    return "", 200
 
-class WaitThread(threading.Thread):
-    def run(self):
-        print 'Wait Thread. wait for 4 sec.....'
-        global blesignal
-        time.sleep(4)
+@api.route('/call_waiter', methods=['POST'])
+def call_waiter():
+    ble_id = request.form['ble_id']
+    table = request.form['table']
+    functional_call_name = request.form['functional_call_name']
+    restaurant_id = request.form['restaurant_id']
 
-        wc_id = self._Thread__kwargs['wc_id']
-        wc = WC.query.filter_by(id=wc_id).first()
-        customer_ble_id = wc.ble_id
-        
-        blesignal_local = copy.deepcopy(blesignal[customer_ble_id])    
-        
-#        I will develope this during test
-#         if len(blesignal_local) == 0 :
-#             
-#         else :
-        
+    print ' ------------11111 call waiter ----------'
+    print 'ble_id(' + ble_id + ') table(' + table + ') functional_call_name(' + functional_call_name + ') restaurant_id(' + restaurant_id + ')'
+    
+    blesignal[ble_id] = []
+    
+    count = User.query.filter_by(iswaiter='Y').count()
+    
+    if count == 0:
+        return "", 200
+    
+    print 'seng gcm to ', count,' client waiters'
+    waiters = User.query.filter_by(iswaiter='Y', restaurant_id=restaurant_id)
+    for waiter in waiters :
+        send_gcm(waiter.reg_id, ble_id)
+    
+    print 'Wait Thread. wait for 4 sec.....'
+    time.sleep(10)
+
+    blesignal_local = copy.deepcopy(blesignal[ble_id])
+    
+    if len(blesignal_local) == 0 :
+        waiter = waiters.first()
+        print 'no ble signal, randome choise name>' + waiter.waiter_name 
+    else :
         blesignal_local.sort(reverse=True)
         print blesignal_local
         waiterinfo = blesignal_local[0]
@@ -136,41 +153,18 @@ class WaitThread(threading.Thread):
         print '\n total'
         print strength
         waiter = User.query.filter_by(device_id=waiter_device_id).first()
-        waiter_reg_id = waiter.reg_id
-        
-        customer = User.query.filter_by(ble_id=customer_ble_id).first()
-        table = customer.table
-        
-        wc.waiter_name = waiter.waiter_name
-        wc.time = datetime.now().strftime("%m/%d %H:%M")
-        
-        send_gcm_waiter(waiter_reg_id, table)
+    
 
-@api.route('/call_waiter', methods=['POST'])
-def call_waiter():
-    ble_id = request.form['ble_id']
-    table = request.form['table']
-    functional_call_name = request.form['functional_call_name']
+    send_gcm_waiter(waiter.reg_id, table)
 
-    print ' ------------11111 call waiter ----------'
-    print 'ble_id(' + ble_id + ') table(' + table + ') functional_call_name(' + functional_call_name + ')'
     wc = WC()
     wc.ble_id = ble_id
     wc.table = table
     wc.functional_call_name = functional_call_name
+    wc.waiter_name = waiter.waiter_name
+    wc.time = datetime.now().strftime("%m/%d %H:%M")
+    wc.restaurant_id = restaurant_id
     wc.save()
-    
-    blesignal[ble_id] = []
-    
-    thread = WaitThread(kwargs={'wc_id': wc.id})
-    thread.start()
-
-    count = User.query.filter_by(iswaiter='Y').count()
-    print 'seng gcm to ', count,' client waiters'
-    waiters = User.query.filter_by(iswaiter='Y')
-    
-    for waiter in waiters :
-        send_gcm(waiter.reg_id, ble_id)
     
     return "", 200
 

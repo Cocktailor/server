@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
     table = db.Column(db.String(100))
     iswaiter = db.Column(db.String(100), default="N")
     waiter_name = db.Column(db.String(100))
+    restaurant_id = db.Column(db.String(100))
 
     @classmethod
     def get_regid(device_id):

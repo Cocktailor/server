@@ -10,12 +10,7 @@ from flask.ext.login import current_user
 
 from cocktailor.menu.models import Category,Menu
 from cocktailor.extensions import db
-from cocktailor.utils.helpers import render_template, id_generator
-from cocktailor.configs.default import DefaultConfig as Config
-
-from werkzeug import secure_filename
-
-import os
+from cocktailor.utils.helpers import render_template, make_file
 
 menu = Blueprint("menu", __name__)
 
@@ -73,20 +68,15 @@ def new_menu(c_id):
         name = request.form['mname']
         desc = request.form['mdesc']
         price = request.form['mprice']
-        file = request.files['mfile']
-        filename = file.filename
-        extention = '.' in filename and filename.rsplit('.', 1)[1]
+        img = request.files['mfile']
         menu = Menu()
         menu.insert_name(name)
         menu.insert_price(price)
         menu.insert_description(desc)
         menu.insert_category_id(c_id)
         menu.insert_restaurant_id(current_user.restaurant_id)
-        if file and (extention in Config.ALLOWED_EXTENSIONS) :
-            random_filename = id_generator() + '.' + extention
-            filename = secure_filename(random_filename)
-            path = os.path.join(Config.PICTURE_STORE_PATH, filename)
-            file.save(path)
+        if img:
+            filename = make_file(img)
             menu.insert_picture(filename)
         menu.save()
         return redirect(url_for('menu.edit'))

@@ -4,18 +4,18 @@
 {% block content %}
 {% from theme('macros.html') import render_pagination, group_field %}
 
-<form class="form" role="form" method="post">
+<form class="form" role="form" method="post" enctype="multipart/form-data">
     <h3>New Function Call</h3>
     <div class="form-group">
 	    <div class="col-sm-12">
 	        <label>Call Image</label>
-	                <input type="file" id="cfile" name="cfile">
+	                <input type="file" id="fcfile" name="fcfile">
 	    </div>
 	</div>
     <div class="form-group">
 	    <div class="col-sm-12">
 	        <label>Call Name</label>
-	                <input class="form-control" id="cname" name="cname" placeholder="Call Name" required="required" type="text" value="">
+	                <input class="form-control" id="fcname" name="fcname" placeholder="Call Name" required="required" type="text" value="">
 	    </div>
 	</div>
 	

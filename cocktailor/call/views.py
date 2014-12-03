@@ -9,12 +9,7 @@ from flask_login import current_user
 from cocktailor.extensions import db
 from cocktailor.call.models import WaiterCall as Call
 from cocktailor.call.models import FunctionalCallName as FCN
-from cocktailor.utils.helpers import render_template, id_generator
-from cocktailor.configs.default import DefaultConfig as Config
-
-from werkzeug import secure_filename
-
-import os
+from cocktailor.utils.helpers import render_template, make_file
 
 call = Blueprint("call", __name__)
 
@@ -43,18 +38,13 @@ def view_call():
 @call.route("/view_call/new_call", methods=["POST", "GET"])
 def new_call():
     if request.method == "POST":
-        name = request.form['cname']
-        file = request.files['cfile']
-        filename = file.filename
-        extention = '.' in filename and filename.rsplit('.', 1)[1]
+        name = request.form['fcname']
+        img = request.files['fcfile']
         fcn = FCN()
         fcn.insert_name(name)
         fcn.insert_restaurant_id(current_user.restaurant_id)
-        if file and (extention in Config.ALLOWED_EXTENSIONS) :
-            random_filename = id_generator() + '.' + extention
-            filename = secure_filename(random_filename)
-            path = os.path.join(Config.PICTURE_STORE_PATH, filename)
-            file.save(path)
+        if img:
+            filename = make_file(img)
             fcn.insert_picture(filename)
         fcn.save()
         return redirect(url_for('call.view_call'))

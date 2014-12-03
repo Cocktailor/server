@@ -138,7 +138,7 @@ def call_waiter():
         send_gcm(waiter.reg_id, ble_id)
     
     print 'Wait Thread. wait for 4 sec.....'
-    time.sleep(10)
+    time.sleep(4)
 
     blesignal_local = copy.deepcopy(blesignal[ble_id])
     

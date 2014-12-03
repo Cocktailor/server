@@ -44,7 +44,7 @@ def menu_receive(r_id):
     fcns = FunctionalCallName.query.filter_by(restaurant_id=r_id)
     fcnArray = []
     for fnc in fcns:
-         fcnArray.append(fnc.values())
+        fcnArray.append(fnc.values())
         
     result = {}
     result['category'] = CategoriesArray

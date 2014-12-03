@@ -1,0 +1,51 @@
+{% set page_title = "Menu List" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+<div class="pull-right" style="padding-bottom: 10px">
+    <div class="btn-group">
+        <a href="/call" class="btn btn-primary">
+            <span class="fa fa-bell"></span> View Calls
+        </a>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+        <td colspan="5"><h3>&nbsp;&nbsp;&nbsp;Function Calls</h3>
+        </td>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for f in fcns %}
+	        <tr>
+	            <td width="15%" style="vertical-align: middle; horizontal-align: right;">
+	            	{% if f.picture %}
+	            		<img src="/api/picture/{{f.picture}}" width="80" style="display:block"/>
+	            	{% else %}
+	                    <span class="fa fa-music" style="font-size: 2em"></span>
+	                {% endif %}
+	            </td>
+	            <td colspan="3" style="vertical-align: middle;">
+	                <big>{{f.name}}</big>
+	            </td>
+	            <td width="30">
+	            	<a href="{{ url_for('call.del_call', f_id=f.id) }}" class="btn btn-danger">
+						<strong>-</strong>
+			        </a>
+		        </td>
+	        </tr>
+        {% endfor %}
+        <tr><th colspan="5" style="text-align: center;">
+			<a href="{{ url_for('call.new_call') }}" class="btn btn-success" width="30">
+				<strong>+</strong>
+	        </a>
+		</th></tr>
+    </tbody>
+</table>
+
+{% endblock %}

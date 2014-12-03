@@ -32,23 +32,23 @@ fixture = [
         'description' : 'Rum is a distilled alcoholic beverage made from sugarcane byproducts, such as molasses, or directly from sugarcane juice.',
     },
     {
-        'name' : 'tui guim',
+        'name' : u'튀김',
         'restaurant_id' : 2,
-        'description' : 'basac basac',
+        'description' : u'바삭바삭',
     },
     {
-        'name' : 'boon sic',
+        'name' : u'분식',
         'restaurant_id' : 2,
-        'description' : 'jjol git jjol git',
+        'description' : u'쫄깃쫄깃',
     },
     {
-        'name' : 'go gi',
+        'name' : u'고기',
         'restaurant_id' : 3,
-        'description' : 'taste good',
+        'description' : u'맛있어~~~',
     },
     {
-        'name' : 'sic sa',
+        'name' : u'식사',
         'restaurant_id' : 3,
-        'description' : 'korean need rice',
+        'description' : u'한국인은 밥 힘!!',
     },
 ]

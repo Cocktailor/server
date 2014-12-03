@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
 encoding//cocktailor/__init__.py=utf-8
+encoding//cocktailor/fixture/calls.py=utf-8
+encoding//cocktailor/fixture/categories.py=utf-8
 encoding//cocktailor/fixture/functionalcallname.py=utf-8
+encoding//cocktailor/fixture/menus.py=utf-8
 encoding//cocktailor/fixture/orders.py=utf-8

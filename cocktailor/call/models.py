@@ -41,6 +41,18 @@ class FunctionalCallName(db.Model):
         values['name'] = self.name
         return values
     
+    def insert_name(self, n):
+        self.name = n
+        return self.name
+    
+    def insert_picture(self,p):
+        self.picture = p
+        return self.picture
+    
+    def insert_restaurant_id(self,rid):
+        self.restaurant_id = rid
+        return self.restaurant_id
+    
 class WaiterCall(db.Model):
     __tablename__ = "waitercalls"
 
@@ -78,4 +90,8 @@ class WaiterCall(db.Model):
         values['device_id'] = self.device_id
         values['ble_id'] = self.ble_id
         values['table'] = self.table
+        values['functional_call_name'] = self.functional_call_name
+        values['time'] = self.time
+        values['waiter_name'] = self.waiter_name
         return values
+    

@@ -10,21 +10,23 @@ from flask.ext.script import Manager, Server
 from cocktailor.app import create_app
 from cocktailor.extensions import db
 from cocktailor.configs.default import DefaultConfig as Config
+from cocktailor.configs.individualsettings import IndividualConfig as IConfig
 from cocktailor.utils.populate import create_test_data
-
 from cocktailor.auth.models import User
-from cocktailor.call.models import FunctionalCallName, WaiterCall
+# from cocktailor.call.models import FunctionalCallName, WaiterCall
 from flask.ext.login import current_user
 
 from gcm import *
 
+import logging, sys
+
 app = create_app(Config)
 manager = Manager(app)
 
-import logging, sys
+
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
-from cocktailor.configs.individualsettings import IndividualConfig as IConfig
+
 manager.add_command("runserver", Server(IConfig.ServerAddress, port=IConfig.ServerPort))
 
 @manager.command

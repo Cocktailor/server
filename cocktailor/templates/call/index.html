@@ -1,0 +1,60 @@
+{% set page_title = "Waiter Call" %}
+
+{% extends theme("layout.html") %}
+{% block content %}
+{% from theme('macros.html') import render_pagination, group_field %}
+
+<div class="pull-right" style="padding-bottom: 10px">
+    <div class="btn-group">
+        <a href="/call/view_call" class="btn btn-default">
+            <span class="fa fa-music"></span> Call Name
+        </a>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Table #</th>
+            <th>Function Call</th>
+            <th>Waiter</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in calls %}
+	        <tr height="60">
+	            <td>{{ c['table'] }}</td>
+	            <td>{{ c['functional_call_name'] }}</td>
+	            <td>{{ c['waiter_name'] }}</td>
+	            <td>{{ c['time'] }}</td>
+	        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	var before = '0';
+	var after = '0';
+	
+	(function worker() {
+		$.ajax({
+			type: "POST",
+		  	url: "/call/callcount",
+		}).done(function( data ) {
+			after = data;
+			if(before != '0' && before != after) {
+				console.log('before : ' + before + 'after : ' + after); 
+				location.reload();
+			}
+			before = after;
+			setTimeout(worker, 500);
+		});
+	})();
+	
+</script>
+
+
+{% endblock %}

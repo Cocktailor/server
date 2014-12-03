@@ -10,14 +10,12 @@ from flask.ext.login import current_user
 
 from cocktailor.menu.models import Category,Menu
 from cocktailor.extensions import db
-from cocktailor.utils.helpers import render_template
+from cocktailor.utils.helpers import render_template, id_generator
 from cocktailor.configs.default import DefaultConfig as Config
 
 from werkzeug import secure_filename
 
 import os
-import string
-import random
 
 menu = Blueprint("menu", __name__)
 
@@ -106,8 +104,4 @@ def del_menu(m_id):
     Menu.query.filter_by(id=m_id).delete()
     db.session.commit()
     return redirect(url_for('menu.edit'))
-
-#image process
-def id_generator(size=80, chars=string.ascii_uppercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
 

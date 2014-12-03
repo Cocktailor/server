@@ -6,6 +6,7 @@ Created on 2014. 11. 12.
 
 from cocktailor.menu.models import Category, Menu
 from cocktailor.home.models import Order
+from cocktailor.call.models import WaiterCall as Call
 from cocktailor.call.models import FunctionalCallName
   
 def create_default_categories():
@@ -36,6 +37,15 @@ def create_default_orders():
             setattr(order, k, v)
         order.save()
         
+def create_default_calls():
+    from cocktailor.fixture.calls import fixture
+    for data in fixture:
+        call = Call()
+        for k in data:
+            v = data[k]
+            setattr(call, k, v)
+        call.save()
+        
 def create_default_functionalcallname():
     from cocktailor.fixture.functionalcallname import fixture
     for data in fixture:
@@ -50,4 +60,5 @@ def create_test_data():
     create_default_categories()
     create_default_menus()
     create_default_orders()
+    create_default_calls()
     create_default_functionalcallname()

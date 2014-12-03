@@ -5,11 +5,13 @@ Created on 2014. 11. 17.
 '''
 
 from flask import Blueprint, redirect, url_for, Request
-from flask import Response
+# from flask import Response
+from flask_login import current_user
 from cocktailor.home.models import Order
 from cocktailor.utils.helpers import render_template
-from flask_login import current_user
-from itertools import count
+
+from datetime import datetime
+# from itertools import count
 
 home = Blueprint("home", __name__)
 
@@ -27,7 +29,7 @@ def done(o_id):
     orders = Order.query.filter_by(restaurant_id = current_user.restaurant_id)
     for o in orders:
         if o_id == o.id:
-            o.change_status()
+            o.change_status(datetime.now().strftime("%m/%d %H:%M"))
             o.save()
             break
     return redirect(url_for('home.index'))

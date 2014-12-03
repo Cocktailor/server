@@ -17,6 +17,7 @@ class Order(db.Model):
     price = db.Column(db.Integer)
     table = db.Column(db.Integer)
     time = db.Column(db.String(20))
+    done_time=db.Column(db.String(20))
     status = db.Column(db.String(20))
 
     # Methods
@@ -46,6 +47,7 @@ class Order(db.Model):
         values['price'] = self.price
         values['table'] = self.table
         values['time'] = self.time
+        values['done_time'] = self.done_time
         values['status'] = self.status
         return values
     
@@ -73,7 +75,8 @@ class Order(db.Model):
         self.status = 'pending'
         return self.status
     
-    def change_status(self):
+    def change_status(self, t):
         if self.status == 'pending':
             self.status = 'done'
+            self.done_time = t
         return

@@ -17,6 +17,8 @@ home = Blueprint("home", __name__)
 
 @home.route("/", methods=['GET'])
 def index():
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
     orders = Order.query.filter_by(restaurant_id = current_user.restaurant_id)
     OrdersArray = []
     for o in orders:

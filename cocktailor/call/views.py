@@ -15,6 +15,8 @@ call = Blueprint("call", __name__)
 
 @call.route("/", methods=['GET'])
 def index():
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
     calls = Call.query.filter_by(restaurant_id = current_user.restaurant_id)
     CallsArray = []
     for c in calls:
@@ -29,6 +31,8 @@ def callcount():
 
 @call.route("/view_call", methods=['GET'])
 def view_call():
+    if not (current_user is not None and current_user.is_authenticated()):
+        return redirect(url_for('auth.login'))
     fcns = FCN.query.filter_by(restaurant_id = current_user.restaurant_id)
     Fcns = []
     for f in fcns:

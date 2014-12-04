@@ -61,6 +61,9 @@ def getorder():
     order_content = request.form['order_content']
     time = request.form['time']
     restaurant_id = request.form['restaurant_id']
+    
+    print 'table(' + table + ') price(' + price + ') order_content(' + order_content + ') time(' +  time + ') restaurant_id(' + restaurant_id + ')'
+    
     o = Order()
     o.insert_table(table)
     o.insert_content(order_content)

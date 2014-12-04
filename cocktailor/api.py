@@ -23,6 +23,8 @@ import json
 
 api = Blueprint("api", __name__)
 
+CallWaitTime = 4
+
 
 @api.route('/picture/<string:fname>', methods=['GET'])
 def picture_receive(fname):
@@ -83,9 +85,9 @@ def send_gcm(waiter_reg_id, customer_ble_id):
     reg_id = waiter_reg_id
     gcm.plaintext_request(registration_id=reg_id, data=data)
 
-def send_gcm_waiter(waiter_reg_id, table):
+def send_gcm_waiter(waiter_reg_id, table, functional_call_name):
     gcm = GCM('AIzaSyBsDGUDh_5O5O-BqipGljNLQMurQNRgP2M')
-    data = {'table': table}
+    data = {'table': table, 'functional_call_name': functional_call_name}
     reg_id = waiter_reg_id
     gcm.plaintext_request(registration_id=reg_id, data=data)
 
@@ -140,8 +142,8 @@ def call_waiter():
     for waiter in waiters :
         send_gcm(waiter.reg_id, ble_id)
     
-    print 'Wait Thread. wait for 4 sec.....'
-    time.sleep(3)
+    print 'Wait Thread. wait for ' + repr(CallWaitTime) + ' sec.....'
+    time.sleep(CallWaitTime)
 
     blesignal_local = copy.deepcopy(blesignal[ble_id])
     
@@ -158,7 +160,7 @@ def call_waiter():
         waiter = User.query.filter_by(device_id=waiter_device_id).first()
     
 
-    send_gcm_waiter(waiter.reg_id, table)
+    send_gcm_waiter(waiter.reg_id, table, functional_call_name)
 
     wc = WC()
     wc.ble_id = ble_id

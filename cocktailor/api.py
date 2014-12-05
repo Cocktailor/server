@@ -23,7 +23,7 @@ import json
 
 api = Blueprint("api", __name__)
 
-CallWaitTime = 4
+CallWaitTime = 6
 
 
 @api.route('/picture/<string:fname>', methods=['GET'])
@@ -179,6 +179,7 @@ def ble_signal():
     device_id = request.form['device_id']
     customer_ble_id = request.form['response_ble_id']
     
+     = (int(strength)+100
     print '\n-----------kkkkkk ble_signal ----------'
     print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'
     

@@ -179,11 +179,11 @@ def ble_signal():
     device_id = request.form['device_id']
     customer_ble_id = request.form['response_ble_id']
     
-     = (int(strength)+100
+    st = int(strength)+100
     print '\n-----------kkkkkk ble_signal ----------'
-    print 'strength(' + strength + ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'
+    print 'strength(', st, ') device_id(' + device_id + ') customer_ble_id(' + customer_ble_id +')'
     
-    blesignal[customer_ble_id].append((int(strength)+100, device_id))
+    blesignal[customer_ble_id].append((st, device_id))
     print blesignal
     
     return "", 200

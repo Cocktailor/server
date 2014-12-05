@@ -20,7 +20,7 @@ def index():
     calls = Call.query.filter_by(restaurant_id = current_user.restaurant_id)
     CallsArray = []
     for c in calls:
-        CallsArray.append(c.values())
+        CallsArray = [c.values()] + CallsArray
         
     return render_template("call/index.html", calls=CallsArray)
 
